@@ -7,11 +7,25 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', component: () => import('pages/Index.vue') }],
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
+  {
+    path: '/login',
+    component: () => import('layouts/HeaderPlain.vue'),
+    children: [{ path: '', component: () => import('pages/auth/Login.vue') }],
+  },
+  
+  {
+    path: '/register',
+    component: () => import('layouts/HeaderPlain.vue'),
+    children: [{ path: '', component: () => import('pages/auth/Register.vue') }],
+  },
+  {
+    path: '/forgotpassword',
+    component: () => import('layouts/HeaderPlain.vue'),
+    children: [{ path: '', component: () => import('pages/auth/ForgotPassword.vue') }],
+  },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue'),
+    component: () => import('pages/error/Error404.vue'),
   },
 ];
 
