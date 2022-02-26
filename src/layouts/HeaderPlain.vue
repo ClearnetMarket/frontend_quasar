@@ -8,18 +8,33 @@
     >
       <q-toolbar>
         <q-toolbar-title>
-
-          <div class="text-secondary">
-            <q-avatar class="text-secondary bg-secondary">
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-            </q-avatar>
-
-            Clearnet Market
-          </div>
+              <router-link to="/">Clearnet Market</router-link>
         </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+        <div v-if="user">
+          <q-btn
+            class="q-ma-sm"
+            color="secondary"
+            label="Logout"
+          />
 
+        </div>
+        <div v-if="!user">
+          <q-btn
+            href="/login"
+            class="q-ma-sm"
+            color="None"
+            label="Sign In"
+          />
+          <q-btn
+            href="/register"
+            class="q-ma-sm"
+            color="secondary"
+            label="Register"
+          />
+        </div>
+      </q-toolbar>
+
+    </q-header>
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -27,11 +42,23 @@
   </q-layout>
 </template>
 
-
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: 'HeaderPlain',
+  computed: {
+    ...mapGetters(['user']),
+  },
+
+  methods: {
+    logout(){
+      localStorage.clear();
+      
+      this.$router.push({name:''})
+      
+    }
+  }
 });
 </script>

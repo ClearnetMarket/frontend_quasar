@@ -1,7 +1,10 @@
 <template>
   <q-page class="docs-input row justify-center">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl ">
 
+    <div class="col-xs-12 col-sm-6 col-md-4  col-auto q-pt-xl ">
+      <p class="text-center ">
+        If your account has been unlocked, you can change your password
+      </p>
       <q-form
         class="q-px-sm q-pt-xl"
         method="POST"
@@ -10,45 +13,43 @@
         <div class="q-gutter-md  q-pa-lg formlayout">
           <div class="row">
             <div class="col-xs-12 text-center text-h4">
-              Log In
+              Enter New Password
             </div>
           </div>
+          <q-input
+            outlined
+            v-model="ChangePasswordForm.password"
+            label="Word 1"
+            autocomplete="off"
+            :dense="ChangePasswordForm.dense"
+          />
+          <q-input
+            outlined
+            v-model="ChangePasswordForm.password_confirm"
+            label="Word 2"
+            autocomplete="off"
+            :dense="ChangePasswordForm.dense"
+          />
 
-          <q-input
-            outlined
-            v-model="loginForm.username"
-            label="Username"
-            autocomplete="off"
-            :dense="loginForm.dense"
-          />
-          <q-input
-            outlined
-            type="password"
-            v-model="loginForm.password"
-            label="Password"
-            autocomplete="off"
-            :dense="loginForm.dense"
-          />
-          <q-space />
           <div class="q-pa-md doc-container">
             <div class="row justify-end">
               <q-btn
-                type="submit"
                 class="full-width"
+                type="submit"
                 color="secondary"
-                label="Login"
+                label="Change Password"
               />
             </div>
           </div>
+
           <div class="row">
             <div class="col-xs-12 text-center q-mb-md">
               Want to Register? <router-link to="/register">Register</router-link>
             </div>
 
             <div class="col-xs-12 text-center ">
-              Forgot Password? <router-link to="/register">Forgot Password</router-link>
+              Login Here <router-link to="/login">Login</router-link>
             </div>
-             
           </div>
         </div>
       </q-form>
@@ -60,39 +61,36 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
 import { ref } from 'vue';
-import { useQuasar } from 'quasar';
 
 export default defineComponent({
-  name: 'Login',
+  name: 'changepassword',
 
-  setup() {
-    const $q = useQuasar();
-  },
   data() {
     return {
-      loginForm: {
-        username: '',
+      ChangePasswordForm: {
         password: '',
+        password_confirm: '',
+
         dense: ref(true),
       },
-    
     };
   },
 
   methods: {
-    sendLogin(payLoad: { username: string; password: string }) {
+    sendWordRequest(payLoad: { password: string; password_confirm: string }) {
       axios({
         method: 'post',
-        url: '/auth/login',
+        url: '/auth/change-password',
         data: payLoad,
       })
         .then((response) => {
-          if (response.data.user) {
-
-            localStorage.setItem('token', JSON.stringify(response.data.token));
-            this.$store.dispatch('user', response.data.user);
-
-            this.$router.push('/');
+          if (response.data.status == 'success') {
+            this.$q.notify({
+              type: 'positive',
+              message: 'Password Has been changed',
+              position: 'top',
+            });
+            this.$router.push('/login');
           }
         })
         .catch((error) => {
@@ -101,30 +99,30 @@ export default defineComponent({
               this.$q.notify({
                 type: 'negative',
                 message: 'Error: Unauthorized',
-                position: 'top'
-              })
-            
+                position: 'top',
+              });
             } else if (error.response.status === 403) {
               this.$q.notify({
                 type: 'negative',
                 message: 'Error: Forbidden',
-                position: 'top'
-              })
+                position: 'top',
+              });
             } else {
-                this.$q.notify({
+              this.$q.notify({
                 type: 'negative',
                 message: 'Error',
-              })
+              });
             }
           }
         });
     },
     onSubmit() {
+      console.log('Submitted');
       const payLoad = {
-        username: this.loginForm.username,
-        password: this.loginForm.password,
+        password: this.ChangePasswordForm.password,
+        password_confirm: this.ChangePasswordForm.password_confirm,
       };
-      this.sendLogin(payLoad);
+      this.sendWordRequest(payLoad);
     },
   },
 });
@@ -132,8 +130,8 @@ export default defineComponent({
 
 
 <style type="ts" scoped>
-.formlayout {
-  max-width: 450px;
-  margin: 0 auto;
+.center_text {
+  text-align: center;
+  display: inline-block;
 }
 </style>

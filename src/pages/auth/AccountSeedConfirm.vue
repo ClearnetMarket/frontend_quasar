@@ -119,17 +119,13 @@ export default defineComponent({
     }) {
       axios({
         method: 'post',
-        url: '/auth/login',
+        url: '/auth/accountseedconfirm',
         data: payLoad,
       })
         .then((response) => {
           if (response.data.status == "success") {
-            this.$q.notify({
-              type: 'positive',
-              message: 'Account has been unlocked. You can now change your password',
-              position: 'top',
-            });
-            this.$router.push('/login');
+
+            this.$router.push('/');
           }
         })
         .catch((error) => {
@@ -140,7 +136,14 @@ export default defineComponent({
                 message: 'Error: Unauthorized',
                 position: 'top',
               });
-            } else if (error.response.status === 403) {
+            }else if (error.response.status === 409) {
+              this.$q.notify({
+                type: 'negative',
+                message: 'Error: Seed does not match',
+                position: 'top',
+              });
+            }
+             else if (error.response.status === 403) {
               this.$q.notify({
                 type: 'negative',
                 message: 'Error: Forbidden',
@@ -156,7 +159,6 @@ export default defineComponent({
         });
     },
     onSubmit() {
-      console.log('Submitted');
       const payLoad = {
         word0: this.wordForm.word0,
         word1: this.wordForm.word1,

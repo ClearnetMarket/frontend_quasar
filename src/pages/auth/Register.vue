@@ -32,6 +32,7 @@
             outlined
             v-model="registerForm.password"
             label="Password"
+            type="password"
             autocomplete="off"
             :dense="registerForm.dense"
           />
@@ -39,6 +40,7 @@
             outlined
             v-model="registerForm.password_confirm"
             label="Confirm Password"
+            type="password"
             autocomplete="off"
             :dense="registerForm.dense"
           />
@@ -92,12 +94,9 @@ import { defineComponent } from 'vue';
 import axios from 'axios';
 import { ref } from 'vue';
 
-// import HeaderPlainVue from 'src/layouts/HeaderPlain.vue';
-
 export default defineComponent({
   name: 'Register',
   // components: {HeaderPlainVue},
-
 
   data() {
     return {
@@ -127,32 +126,43 @@ export default defineComponent({
       email: string;
       country: string;
       currency: string;
-    })
-     {
-      const path = 'http://172.24.211.176:5005/auth/register';
-      await axios
-        .post(path, payLoad, { withCredentials: false })
+    }) {
+      const path = '/auth/register';
+      axios({
+        method: 'post',
+        url: path,
+        data: payLoad,
+        withCredentials: true,
+      })
         .then((response) => {
-          let data =  response.data.login
-           console.log(data);
-          if (data == true)
-            {this.isAuthenticated = true;}
-
-          else
-            {this.isAuthenticated = false;}
-            console.log("Error");
-
+          if (response.data.user) {
+            localStorage.setItem('user', JSON.stringify(response.data.token));
+            this.$store.dispatch('user', response.data.user);
+            this.$router.push('/');
+          }
         })
         .catch((error) => {
-          console.error(error);
+          if (error.response) {
+            if (error.response.status === 401) {
+              console.error('1');
+            } else if (error.response.status === 403) {
+              console.error('2');
+            } else {
+              console.error(error);
+            }
+          }
         });
     },
-    async getCurrencyList()  {
-      const path = 'http://172.24.211.176:5005/auth/query/currency';
-      await axios
-        .get(path, { withCredentials: false })
+    async getCurrencyList() {
+      const path = '/auth/query/currency';
+
+      axios({
+        method: 'get', //you can set what request you want to be
+        url: path,
+        withCredentials: true,
+        data: '',
+      })
         .then((response) => {
-          console.log(response.data);
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           this.currencyList = response.data;
         })
@@ -161,11 +171,10 @@ export default defineComponent({
         });
     },
     async getCountryList() {
-      const path = 'http://172.24.211.176:5005/auth/query/country';
+      const path = '/auth/query/country';
       await axios
-        .get(path, { withCredentials: false })
+        .get(path, { withCredentials: true })
         .then((response) => {
-          console.log(response.data);
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           this.countryList = response.data;
         })
@@ -179,8 +188,8 @@ export default defineComponent({
         username: this.registerForm.username,
         password: this.registerForm.password,
         email: this.registerForm.email,
-        currency: this.registerForm.currency,
-        country: this.registerForm.country,
+        currency: '1',
+        country: '1',
       };
       await this.Register(payLoad);
     },

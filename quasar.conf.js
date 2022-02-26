@@ -9,6 +9,7 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
+// const { default: veeValidate } = require('src/boot/vee-validate');
 
 module.exports = configure(function (ctx) {
   return {
@@ -99,7 +100,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Dialog', 'Notify '],
     },
 
     // animations: 'all', // --- includes all animations
