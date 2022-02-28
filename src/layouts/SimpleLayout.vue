@@ -6,7 +6,7 @@
           <router-link to="/">Clearnet Market</router-link>
         </q-toolbar-title>
         <div v-if="user">
-          <q-btn class="q-ma-sm" color="secondary" label="Logout" @click.prevent @click="logout()" />
+          <q-btn @click="logout()" class="q-ma-sm" color="secondary" label="Logout" />
         </div>
         <div v-if="!user">
           <q-btn href="/login" class="q-ma-sm" color="None" label="Sign In" />
@@ -23,29 +23,24 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-export default defineComponent({
-  name: 'MainLayout',
+import { useQuasar } from 'quasar';
 
+export default defineComponent({
+  name: 'HeaderPlain',
+  setup () {
+    const $q = useQuasar();
+  },
   computed: {
     ...mapGetters(['user']),
   },
-
   methods: {
     logout () {
-      localStorage.clear();
-      this.$store.dispatch('user', null);
       this.$q.cookies.remove('user_token')
       this.$q.cookies.remove('auth_token')
-      this.$q.notify({
-        type: 'negative',
-        message: 'You are now logged out.',
-        badgeStyle: 'opacity: 0',
-        position: 'top',
-      });
+      this.$store.dispatch('user', null);
+      this.$router.push({ name: 'home' })
 
-
-    },
-  },
+    }
+  }
 });
 </script>
-
