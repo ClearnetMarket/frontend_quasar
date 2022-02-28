@@ -1,5 +1,4 @@
 <template>
-  <q-layout view="hHh lpR fFf">
 
     <q-header
       reveal
@@ -39,7 +38,7 @@
       <router-view />
     </q-page-container>
 
-  </q-layout>
+
 </template>
 
 <script lang="ts">
@@ -55,9 +54,9 @@ export default defineComponent({
   methods: {
     logout(){
       localStorage.clear();
-      
+
       this.$router.push({name:''})
-      
+
     }
   }
 });

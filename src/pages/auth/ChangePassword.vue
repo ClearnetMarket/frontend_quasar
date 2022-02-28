@@ -1,7 +1,7 @@
 <template>
   <q-page class="docs-input row justify-center">
 
-    <div class="col-xs-12 col-sm-6 col-md-4  col-auto q-pt-xl ">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl ">
       <p class="text-center ">
         If your account has been unlocked, you can change your password
       </p>
@@ -12,7 +12,7 @@
       >
         <div class="q-gutter-md  q-pa-lg formlayout">
           <div class="row">
-            <div class="col-xs-12 text-center text-h4">
+           <div class="col-xs-12 text-center text-h4">
               Enter New Password
             </div>
           </div>

@@ -15,10 +15,11 @@ declare module '@vue/runtime-core' {
 // for each client)
 const api = axios.create({ 
   baseURL: process.env.VUE_ROUTER_BASE,
-  withCredentials: false,
+  withCredentials: true,
  });
-
-axios.defaults.baseURL = 'http://172.31.252.103:5005/';
+// Make Sure no trailing /
+// BACKEND SERVER IP
+axios.defaults.baseURL = 'http://172.18.134.255:5000/';
 
 
 export default boot(({ app }) => {

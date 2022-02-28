@@ -1,20 +1,11 @@
 <template>
   <q-page class="docs-input row justify-center">
-
-    <div class="col-xs-12 col-sm-6 col-md-4  col-auto q-pt-xl ">
-      <p class="text-center ">
-        In order to unlock your account, please enter your account seed below.
-      </p>
-      <q-form
-        class="q-px-sm q-pt-xl"
-        method="POST"
-        @submit="onSubmit"
-      >
-        <div class="q-gutter-md  q-pa-lg formlayout">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl">
+      <p class="text-center">In order to unlock your account, please enter your account seed below.</p>
+      <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
+        <div class="q-gutter-md q-pa-lg formlayout">
           <div class="row">
-            <div class="col-xs-12 text-center text-h4">
-              Unlock Account
-            </div>
+            <div class="col-xs-12 text-center text-h4">Unlock Account</div>
           </div>
           <q-input
             outlined
@@ -60,22 +51,19 @@
           />
           <div class="q-pa-md doc-container">
             <div class="row justify-end">
-              <q-btn
-                class="full-width"
-                type="submit"
-                color="secondary"
-                label="Register"
-              />
+              <q-btn class="full-width" type="submit" color="secondary" label="Register" />
             </div>
           </div>
 
           <div class="row">
             <div class="col-xs-12 text-center q-mb-md">
-              Want to Register? <router-link to="/register">Register</router-link>
+              Want to Register?
+              <router-link to="/register">Register</router-link>
             </div>
 
-            <div class="col-xs-12 text-center ">
-              Login Here <router-link to="/login">Login</router-link>
+            <div class="col-xs-12 text-center">
+              Login Here
+              <router-link to="/login">Login</router-link>
             </div>
           </div>
         </div>
@@ -92,7 +80,7 @@ import { ref } from 'vue';
 export default defineComponent({
   name: 'forgotpassword',
 
-  data() {
+  data () {
     return {
       wordForm: {
         word0: '',
@@ -109,7 +97,7 @@ export default defineComponent({
 
   methods:
   {
-    sendWordRequest(payLoad: {
+    sendWordRequest (payLoad: {
       word0: string;
       word1: string;
       word2: string;
@@ -129,21 +117,21 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          if (error.response)  {
+          if (error.response) {
             if (error.response.status === 401) {
               this.$q.notify({
                 type: 'negative',
                 message: 'Error: Unauthorized',
                 position: 'top',
               });
-            }else if (error.response.status === 409) {
+            } else if (error.response.status === 409) {
               this.$q.notify({
                 type: 'negative',
                 message: 'Error: Seed does not match',
                 position: 'top',
               });
             }
-             else if (error.response.status === 403) {
+            else if (error.response.status === 403) {
               this.$q.notify({
                 type: 'negative',
                 message: 'Error: Forbidden',
@@ -158,7 +146,7 @@ export default defineComponent({
           }
         });
     },
-    onSubmit() {
+    onSubmit () {
       const payLoad = {
         word0: this.wordForm.word0,
         word1: this.wordForm.word1,

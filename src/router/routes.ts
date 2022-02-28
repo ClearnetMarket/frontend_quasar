@@ -1,100 +1,125 @@
+import { store } from 'quasar/wrappers';
 import { RouteRecordRaw } from 'vue-router';
-import { createRouter, createWebHistory } from 'vue-router'
-
+import { createRouter, createWebHistory } from 'vue-router';
+import { RouteLocationNormalized } from 'vue-router';
+import { Cookies } from 'quasar';
 
 const routes: RouteRecordRaw[] = [
+  // General Pages no login
   {
     path: '/',
-    name: 'home',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Index.vue') }],
-
-  },
-
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('layouts/HeaderPlain.vue'),
-    children: [{ path: '', component: () => import('pages/auth/Login.vue') }],
-
-  },
-
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import('layouts/HeaderPlain.vue'),
-    children: [{ path: '', component: () => import('pages/auth/Register.vue') }],
-
-  },
-    {
-    path: '/forgotpassword',
-    name: 'forgotpassword',
-    component: () => import('layouts/HeaderPlain.vue'),
-    children: [{ path: '', component: () => import('pages/auth/ForgotPassword.vue') }],
-
-  },
-    {
-    path: '/profile',
-    name: 'profile',
-  component: () => import('layouts/HeaderPlain.vue'),
-    children: [{ path: '', component: () => import('pages/auth/Profile.vue') }],
-
-  },
-  {
-    path: '/changepassword',
-    name: 'changepassword',
-    component: () => import('layouts/HeaderPlain.vue'),
-    children: [{ path: '', component: () => import('pages/auth/ChangePassword.vue') }],
-
-  },
-    {
-    path: '/account-seed',
-    name: 'accountseed',
-    component: () => import('layouts/HeaderPlain.vue'),
-    children: [{ path: '', component: () => import('pages/auth/AccountSeed.vue') }],
-
-  },
+    children: [
       {
-    path: '/account-seed-confirm',
-    name: 'accountseedconfirm',
-    component: () => import('layouts/HeaderPlain.vue'),
-    children: [{ path: '', component: () => import('pages/auth/AccountSeedConfirm.vue') }],
-
+        path: '/',
+        name: 'home',
+        component: () => import('pages/Index.vue'),
+      },
+    ],
   },
+// Login Required Main pages
   {
-    path: '/logout',
-    name: 'logout',
+    path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Index.vue') }],
-
+    beforeEnter: (to, from, next) => {
+      const loggedIn = Cookies.get('auth_token');
+      console.log(loggedIn);
+      if (!loggedIn || loggedIn == null) {
+        next('/login');
+      } else {
+        next();
+      }
+    },
+    children: [
+      {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('pages/auth/Profile.vue'),
+        
+      },
+    ],
   },
+  // Auth Stuff
+  {
+    path: '/auth',
+    component: () => import('layouts/SimpleLayout.vue'),
+    children: [
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('pages/auth/Login.vue'),
+      },
+      {
+        path: '/register',
+        name: 'register',
+        component: () => import('pages/auth/Register.vue'),
+      },
+      {
+        path: '/forgotpassword',
+        name: 'forgotpassword',
+        component: () => import('pages/auth/ForgotPassword.vue'),
+      },
+      {
+        path: '/changepassword',
+        name: 'changepassword',
+        component: () => import('pages/auth/ChangePassword.vue'),
+      },
+      {
+        path: '/account-seed',
+        name: 'accountseed',
+        component: () => import('pages/auth/AccountSeed.vue'),
+        beforeEnter: (to, from, next) => {
+          const loggedIn = Cookies.get('auth_token');
+          console.log(loggedIn);
+          if (!loggedIn || loggedIn == null) {
+            next('/login');
+          } else {
+            next();
+          }
+        },
+      },
+      {
+        path: '/account-seed-confirm',
+        name: 'accountseedconfirm',
+        component: () => import('pages/auth/AccountSeedConfirm.vue'),
+        beforeEnter: (to, from, next) => {
+          const loggedIn = Cookies.get('auth_token');
+          console.log(loggedIn);
+          if (!loggedIn || loggedIn == null) {
+            next('/login');
+          } else {
+            next();
+          }
+        },
+      },
+    ],
+  },
+// Error Pages
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/error/Error404.vue'),
   },
-
-
-
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/home'];
+  // Currently not working due to history mode?
+  const publicPages = ['/login', '/register', '/home'];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user');
+  const loggedIn = Cookies.get('auth_token');
 
-  // try to access a restricted page + not logged in
-  if (authRequired && !loggedIn) {
-    return next('/login');
+  if (loggedIn == null) {
+    next({ name: 'login' });
   }
-
-  next();
+  if (authRequired && !loggedIn) {
+    next('/login');
+  } else {
+    next({ name: 'login' });
+  }
 });
-
-
 
 export default routes;

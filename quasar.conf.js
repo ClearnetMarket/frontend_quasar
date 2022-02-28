@@ -82,7 +82,7 @@ module.exports = configure(function (ctx) {
         type: 'http',
       },
       port: 8080,
-      open: true, // opens browser window automatically
+      open: false, // opens browser window automatically
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -100,7 +100,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog', 'Notify '],
+      plugins: ['Dialog', 'Notify', 'Cookies'],
     },
 
     // animations: 'all', // --- includes all animations

@@ -1,18 +1,10 @@
 <template>
-
   <q-page class="docs-input row justify-center">
-
-    <div class="col-xs-12 col-md-6 col-auto q-pt-xl ">
-      <q-form
-        class="q-px-sm q-pt-xl"
-        method="POST"
-        @submit="onSubmit"
-      >
-        <div class="q-gutter-md  q-pa-lg formlayout">
+    <div class="col-xs-12 col-md-6 col-auto q-pt-xl">
+      <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
+        <div class="q-gutter-md q-pa-lg formlayout">
           <div class="row">
-            <div class="col-xs-12 text-center text-h4">
-              Get Started
-            </div>
+            <div class="col-xs-12 text-center text-h4">Get Started</div>
           </div>
           <q-input
             outlined
@@ -66,21 +58,18 @@
           <q-space />
           <div class="q-pa-md doc-container">
             <div class="row justify-end">
-              <q-btn
-                type="submit"
-                class="full-width"
-                color="secondary"
-                label="Register"
-              />
+              <q-btn type="submit" class="full-width" color="secondary" label="Register" />
             </div>
           </div>
           <div class="row">
             <div class="col-xs-12 text-center q-mb-md">
-              Already Register? <router-link to="/login">Login</router-link>
+              Already Register?
+              <router-link to="/login">Login</router-link>
             </div>
 
-            <div class="col-xs-12 text-center ">
-              Forgot Password? <router-link to="/forgotpassword">Forgot Password</router-link>
+            <div class="col-xs-12 text-center">
+              Forgot Password?
+              <router-link to="/forgotpassword">Forgot Password</router-link>
             </div>
           </div>
         </div>
@@ -93,12 +82,16 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'Register',
   // components: {HeaderPlainVue},
-
-  data() {
+  setup () {
+    const $q = useQuasar();
+    const usercookie = $q.cookies.get('cookie_name')
+  },
+  data () {
     return {
       isAuthenticated: false,
       currencyList: [],
@@ -114,13 +107,13 @@ export default defineComponent({
       },
     };
   },
-  mounted() {
+  mounted () {
     this.getCountryList();
     this.getCurrencyList();
   },
 
   methods: {
-    async Register(payLoad: {
+    async Register (payLoad: {
       username: string;
       password: string;
       email: string;
@@ -136,7 +129,10 @@ export default defineComponent({
       })
         .then((response) => {
           if (response.data.user) {
-            localStorage.setItem('user', JSON.stringify(response.data.token));
+            this.$q.cookies.set('auth_user', JSON.stringify(response.data.user),
+              { expires: 10, secure: true});
+            this.$q.cookies.set('auth_token', JSON.stringify(response.data.token),
+              { expires: 10, secure: true,});
             this.$store.dispatch('user', response.data.user);
             this.$router.push('/');
           }
@@ -144,16 +140,30 @@ export default defineComponent({
         .catch((error) => {
           if (error.response) {
             if (error.response.status === 401) {
-              console.error('1');
+              this.$q.notify({
+                type: 'negative',
+                message: 'Error: Unauthorized',
+                position: 'top'
+              })
+              this.$store.commit('loginFailure')
+
             } else if (error.response.status === 403) {
-              console.error('2');
+              this.$q.notify({
+                type: 'negative',
+                message: 'Error: Forbidden',
+                position: 'top'
+              })
             } else {
-              console.error(error);
+              this.$q.notify({
+                type: 'negative',
+                message: 'Error: Forbidden',
+                position: 'top'
+              })
             }
           }
         });
     },
-    async getCurrencyList() {
+    async getCurrencyList () {
       const path = '/auth/query/currency';
 
       axios({
@@ -170,7 +180,7 @@ export default defineComponent({
           console.error(error);
         });
     },
-    async getCountryList() {
+    async getCountryList () {
       const path = '/auth/query/country';
       await axios
         .get(path, { withCredentials: true })
@@ -182,7 +192,7 @@ export default defineComponent({
           console.error(error);
         });
     },
-    async onSubmit() {
+    async onSubmit () {
       console.log('Submitted');
       const payLoad = {
         username: this.registerForm.username,

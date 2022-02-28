@@ -1,28 +1,24 @@
 <template>
-
-  <div v-if="user">
-    Welcome {{user.user_name}}
-    </div>
-   <div v-if="!user">Login</div>
-  
+  <div v-if="user">Welcome {{ user.user_name }}</div>
+  <div v-if="!user">Login</div>
+  <router-link to="/profile">profile</router-link>
 </template>
 
 <script lang="ts">
 import { mapGetters } from 'vuex';
 import { defineComponent } from 'vue';
-
 import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'Home',
- 
-  setup() {
+
+  setup () {
     const $q = useQuasar();
   },
-  mytoken(){
+  mytoken () {
 
-    },
-  data() {
+  },
+  data () {
     return {
       token: null
     };
@@ -30,9 +26,9 @@ export default defineComponent({
   computed: {
     ...mapGetters(['user']),
   },
-  
-   methods: {
-  
+
+  methods: {
+
   },
 });
 

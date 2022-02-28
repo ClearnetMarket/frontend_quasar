@@ -7,11 +7,7 @@ import {createStore,
 import createPersistedState from "vuex-persistedstate";
 
 
-import {Auth} from "../store/auth";
-
-
-// import example from './module-example'
-// import { ExampleStateInterface } from './module-example/state';
+import auth from "../store/auth";
 
 /*
  * If not building with SSR mode, you can
@@ -42,7 +38,7 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> =
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-    Auth
+      auth
     },
      plugins: [createPersistedState()],
 

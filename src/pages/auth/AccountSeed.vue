@@ -49,7 +49,7 @@ export default defineComponent({
         data: payLoad,
       })
         .then((response) => {
-          if (response.data.status == 200) {
+          if (response.status == 200) {
 
             this.$router.push('/');
           }
