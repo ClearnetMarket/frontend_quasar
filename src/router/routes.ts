@@ -1,7 +1,5 @@
-import { store } from 'quasar/wrappers';
 import { RouteRecordRaw } from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router';
-import { RouteLocationNormalized } from 'vue-router';
 import { Cookies } from 'quasar';
 
 const routes: RouteRecordRaw[] = [

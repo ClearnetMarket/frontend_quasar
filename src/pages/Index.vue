@@ -1,7 +1,6 @@
 <template>
-  <div v-if="user">Welcome {{ user.user_name }}</div>
-  <div v-if="!user">Login</div>
-  <router-link to="/profile">profile</router-link>
+
+
 </template>
 
 <script lang="ts">
