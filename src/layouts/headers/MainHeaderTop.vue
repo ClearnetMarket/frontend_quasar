@@ -5,29 +5,70 @@
 
             <div class="col-4">
                 <div class="row text-center justify-start">
-                    <div class="gt-xs col-auto q-pl-lg q-pt-md text-center fw-bold" align="left">English</div>
-                    <div class="gt-xs col-auto q-pl-lg q-pt-md absolute-lefttext-center fw-bold" align="left">USD</div>
+                    <div
+                        class="gt-xs col-auto q-pl-lg q-pt-md text-center fw-bold"
+                        align="left"
+                    >English</div>
+                    <div
+                        class="gt-xs col-auto q-pl-lg q-pt-md absolute-lefttext-center fw-bold"
+                        align="left"
+                    >USD</div>
                     <div class="gt-xs col-grow"></div>
                 </div>
             </div>
-            <div class="col-4"></div>
-            <div class="col-4 q-pr-lg">
-                <div class="row text-center justify-end q-pr-lg">
-                    <div class="linkcolor_topb gt-xs col-auto q-pl-lg q-pt-md text-center fw-bold ">
-                        <router-link class="" to="/auth/account">Account</router-link>
+
+            <div class="col-8 q-pr-lg gt-sm">
+                <div class="row text-center justify-end">
+                    <div class="linkcolor_topb">
+                        <q-btn flat href="/sell" class="q-mt-sm" color="None" label="Sell" />
                     </div>
-                    <div class="linkcolor_topb gt-xs col-auto q-pl-lg q-pt-md text-center fw-bold">
-                        <router-link class="" to="/messages/home">Messages</router-link>
+                    <div class="linkcolor_topb">
+                        <q-btn flat href="/messages" class="q-mt-sm" color="None" label="Message" />
                     </div>
-                    <div class="linkcolor_topb gt-xs col-auto q-pl-lg q-pt-md text-center fw-bold">
-                        <router-link class="" to="/orders">Orders</router-link>
+                    <div class="linkcolor_topb">
+                        <q-btn flat href="/orders" class="q-mt-sm" color="None" label="Orders" />
                     </div>
-                  
+                    <div v-if="user">
+                        <div class="linkcolor_topb">
+                            <q-btn-dropdown flat class="q-mt-sm linkcolor_topb" color="none" label="My Account">
+                                <q-list>
+                                    <q-item clickable v-close-popup to="/auth/account">
+                                        <q-item-section>
+                                            <q-item-label>Account</q-item-label>
+                                        </q-item-section>
+                                    </q-item>
+
+                                    <q-item clickable v-close-popup to="/orders">
+                                        <q-item-section>
+                                            <q-item-label>Orders</q-item-label>
+                                        </q-item-section>
+                                    </q-item>
+
+                                    <q-item clickable v-close-popup @click="logout()">
+                                        <q-item-section>
+                                            <q-item-label>Logout</q-item-label>
+                                        </q-item-section>
+                                    </q-item>
+                                </q-list>
+                            </q-btn-dropdown>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="linkcolor_topb">
+                            <q-btn flat href="/login" class="q-mt-sm" color="None" label="Log In" />
+                        </div>
+                    </div>
+                    <div v-if="!user">
+                   
+                        <div class="linkcolor_topb">
+                            <q-btn flat href="/register" class="q-mt-sm" label="Register" />
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Small Header top -->
-            <div class="lt-sm col-xs-12 col-sm-4 col-md-3 justify-content-end ">
+            <div class="lt-sm col-xs-12 col-sm-4 col-md-3 justify-content-end">
                 <div v-if="user">
                     <div class="row lt-sm">
                         <div class="col-12">
@@ -40,7 +81,7 @@
                                 @click="logout()"
                             />
                             <q-btn
-                                class="q-ma-sm "
+                                class="q-ma-sm"
                                 icon="fas fa-user"
                                 color="secondary"
                                 label="Account"
@@ -67,6 +108,7 @@ export default defineComponent({
     computed: {
         ...mapGetters(['user']),
     },
+
 
     methods: {
         logout () {
@@ -103,12 +145,10 @@ export default defineComponent({
 .linkcolor_topb a:hover {
     color: #ff9900;
     text-decoration: none;
- 
 }
 
 .linkcolor_topb a:active {
     color: #ff9900;
     text-decoration: none;
-   
 }
 </style>

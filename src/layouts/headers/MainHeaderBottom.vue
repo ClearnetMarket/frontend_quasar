@@ -2,14 +2,14 @@
     <div class="row text-center bg-primary text-white font-weight-bold q-pa-none q-ma-">
         <div class="col-xs-6 col-sm-auto">
             <div class="q-px-sm q-py-none">
-                <q-btn-dropdown
-                    color="secondary"
+                <q-btn-dropdown flat
+                    color="none"
                     push
                     no-caps
                     icon="fas fa-align-justify"
                     label="Categories "
                 >
-                    <q-list></q-list>
+                    <q-list>
                         <q-item
                             clickable
                             v-close-popup
@@ -26,8 +26,8 @@
         </div>
         <div class="col-xs-6 col-sm-auto">
             <div class="q-px-sm q-py-none">
-                <q-btn-dropdown
-                    color="secondary"
+                <q-btn-dropdown flat
+                    color="none"
                     push
                     no-caps
                     icon="fab fa-bitcoin"

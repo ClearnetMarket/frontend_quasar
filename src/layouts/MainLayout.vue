@@ -1,10 +1,10 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <MainHeaderTop />
-
     <q-page-container>
       <MainHeaderMid />
       <MainHeaderBottom />
+      <MainHeaderVendor  v-show="user.admin_role > 5"/>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -16,11 +16,12 @@ import { mapGetters } from 'vuex';
 import MainHeaderTop from './headers/MainHeaderTop.vue';
 import MainHeaderMid from './headers/MainHeaderMid.vue';
 import MainHeaderBottom from './headers/MainHeaderBottom.vue';
+import MainHeaderVendor from './headers/MainHeaderVendor.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
-  components: { MainHeaderTop, MainHeaderMid, MainHeaderBottom },
+  components: { MainHeaderTop, MainHeaderMid, MainHeaderBottom, MainHeaderVendor },
   computed: {
     ...mapGetters(['user']),
   },

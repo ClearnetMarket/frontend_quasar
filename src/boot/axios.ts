@@ -19,7 +19,7 @@ const api = axios.create({
  });
 // Make Sure no trailing /
 // BACKEND SERVER IP
-axios.defaults.baseURL = 'http://172.18.134.255:5000/';
+axios.defaults.baseURL = 'http://172.23.219.189:5000/';
 
 
 export default boot(({ app }) => {
