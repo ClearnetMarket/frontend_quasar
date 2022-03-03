@@ -44,7 +44,7 @@
                             </q-item-section>
                             <q-item-section>
                                 <q-item-label>Bitcoin</q-item-label>
-                                <q-item-label caption>{{ btcbalance }}</q-item-label>
+                                <!-- <q-item-label caption>{{ btcbalance }}</q-item-label> -->
                             </q-item-section>
                         </q-item>
 
@@ -58,7 +58,7 @@
                             </q-item-section>
                             <q-item-section>
                                 <q-item-label>Bitcoin Cash</q-item-label>
-                                <q-item-label caption>{{ bchbalance }}</q-item-label>
+                                <!-- <q-item-label caption>{{ bchbalance }}</q-item-label> -->
                             </q-item-section>
                         </q-item>
 
@@ -72,7 +72,7 @@
                             </q-item-section>
                             <q-item-section>
                                 <q-item-label>Monero</q-item-label>
-                                <q-item-label caption>{{ xmrbalance }}</q-item-label>
+                                <!-- <q-item-label caption>{{ xmrbalance }}</q-item-label> -->
                             </q-item-section>
                         </q-item>
                     </q-list>
@@ -110,9 +110,9 @@ export default defineComponent({
             xmrprice: null,
             bchprice: null,
 
-            btcbalance: null,
-            xmrbalance: null,
-            bchbalance: null,
+            // btcbalance: null,
+            // xmrbalance: null,
+            // bchbalance: null,
 
             categoriesList: {},
         }
@@ -125,9 +125,9 @@ export default defineComponent({
         this.getbchprice();
         this.getxmrprice();
 
-        this.getxmrbalance();
-        this.getbchbalance();
-        this.getbtcbalance();
+        // this.getxmrbalance();
+        // this.getbchbalance();
+        // this.getbtcbalance();
 
         this.getCategoryList();
     },
@@ -167,41 +167,41 @@ export default defineComponent({
                     }
                 })
         },
-        //  Get balances for dropdowns
-        async getxmrbalance () {
-            await axios({
-                method: 'get',
-                url: '/xmr/balance',
-            })
-                .then((response) => {
-                    if (response.data) {
-                        this.xmrbalance = response.data.xmr_balance
-                    }
-                })
-        },
+        // //  Get balances for dropdowns
+        // async getxmrbalance () {
+        //     await axios({
+        //         method: 'get',
+        //         url: '/xmr/balance',
+        //     })
+        //         .then((response) => {
+        //             if (response.data) {
+        //                 this.xmrbalance = response.data.xmr_balance
+        //             }
+        //         })
+        // },
 
-        async getbchbalance () {
-            await axios({
-                method: 'get',
-                url: '/bch/balance',
-            })
-                .then((response) => {
-                    if (response.data) {
-                        this.bchbalance = response.data.bch_balance
-                    }
-                })
-        },
-        async getbtcbalance () {
-            await axios({
-                method: 'get',
-                url: '/btc/balance',
-            })
-                .then((response) => {
-                    if (response.data) {
-                        this.btcbalance = response.data.btc_balance
-                    }
-                })
-        },
+        // async getbchbalance () {
+        //     await axios({
+        //         method: 'get',
+        //         url: '/bch/balance',
+        //     })
+        //         .then((response) => {
+        //             if (response.data) {
+        //                 this.bchbalance = response.data.bch_balance
+        //             }
+        //         })
+        // },
+        // async getbtcbalance () {
+        //     await axios({
+        //         method: 'get',
+        //         url: '/btc/balance',
+        //     })
+        //         .then((response) => {
+        //             if (response.data) {
+        //                 this.btcbalance = response.data.btc_balance
+        //             }
+        //         })
+        // },
         async getCategoryList () {
             const path = '/category/sidebar';
             await axios

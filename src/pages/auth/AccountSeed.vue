@@ -1,11 +1,11 @@
 <template>
-  <q-page class="docs-input row justify-center">
-
-    <div class="col-xs-12 col-sm-6 col-md-4  col-auto q-pt-xl ">
-      <p class="text-center ">
-        In order to unlock your account, please enter your account seed below.
-      </p>
-     
+  <q-page class="docs-input">
+    <div class="row justify-center">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl">
+        <p
+          class="text-center"
+        >In order to unlock your account, please enter your account seed below.</p>
+      </div>
     </div>
   </q-page>
 </template>
@@ -18,7 +18,7 @@ import { ref } from 'vue';
 export default defineComponent({
   name: 'forgotpassword',
 
-  data() {
+  data () {
     return {
       wordForm: {
         word0: '',
@@ -35,7 +35,7 @@ export default defineComponent({
 
   methods:
   {
-    sendWordRequest(payLoad: {
+    sendWordRequest (payLoad: {
       word0: string;
       word1: string;
       word2: string;
@@ -55,7 +55,7 @@ export default defineComponent({
           }
         })
         .catch((error) => {
-          if (error.response)  {
+          if (error.response) {
             if (error.response.status === 401) {
               this.$q.notify({
                 type: 'negative',
@@ -63,7 +63,7 @@ export default defineComponent({
                 position: 'top',
               });
             }
-             else if (error.response.status === 403) {
+            else if (error.response.status === 403) {
               this.$q.notify({
                 type: 'negative',
                 message: 'Error: Forbidden',
@@ -78,7 +78,7 @@ export default defineComponent({
           }
         });
     },
-    
+
   },
 });
 </script>

@@ -15,7 +15,7 @@
         </div>
       </q-toolbar>
     </q-header>
-    <q-page-container>
+    <q-page-container  style="max-width: 1300px; margin: 0 auto;">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -34,7 +34,8 @@ export default defineComponent({
   computed: {
     ...mapGetters(['user']),
   },
-  methods: {
+
+  methods: {  
     logout () {
       this.$q.cookies.remove('user_token')
       this.$q.cookies.remove('auth_token')

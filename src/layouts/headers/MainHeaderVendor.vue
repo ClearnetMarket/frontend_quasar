@@ -1,49 +1,49 @@
 <template>
     <div class="row text-center bg-primary text-white font-weight-bold q-pa-none q-mx-xl q-my-sm">
         <div v-if="disputes">
-            <q-chip>
+            <q-btn>
                 <q-avatar color="red" text-color="white" size="sm">{{ disputes }}</q-avatar>Disputes
-            </q-chip>
+            </q-btn>
         </div>
         <div v-else>
-            <q-chip clickable to="/vendor/itemsforsale" color="primary" text-color="white">Disputes</q-chip>
+            <q-btn clickable to="/vendor/itemsforsale" color="primary" text-color="white">Disputes</q-btn>
         </div>
 
         <div v-if="returns">
-            <q-chip>
+            <q-btn>
                 <q-avatar color="red" text-color="white" size="sm">{{ returns }}</q-avatar>Returns
-            </q-chip>
+            </q-btn>
         </div>
         <div v-else>
-            <q-chip clickable to="/vendor/itemsforsale" color="primary" text-color="white">Returns</q-chip>
+            <q-btn clickable to="/vendor/itemsforsale" color="primary" text-color="white">Returns</q-btn>
         </div>
 
         <div v-if="feedback" class="q-mt-none">
-            <q-chip>
+            <q-btn>
                 <q-avatar color="red" text-color="white" size="sm">{{ feedback }}</q-avatar>Feedback
-            </q-chip>
+            </q-btn>
         </div>
         <div v-else>
-            <q-chip clickable to="/vendor/itemsforsale" color="primary" text-color="white">Feedback</q-chip>
+            <q-btn clickable to="/vendor/itemsforsale" color="primary" text-color="white">Feedback</q-btn>
         </div>
 
         <div v-if="orders">
-            <q-chip>
+            <q-btn>
                 <q-avatar color="red" text-color="white" size="sm">{{ orders }}</q-avatar>Orders
-            </q-chip>
+            </q-btn>
         </div>
         <div v-else>
-            <q-chip clickable to="/vendor/itemsforsale" color="primary" text-color="white">Orders</q-chip>
+            <q-btn clickable to="/vendor/itemsforsale" color="primary" text-color="white">Orders</q-btn>
         </div>
         <div class="col-grow"></div>
         <div class="col-auto q-px-md text-no-wrap justify-end">
-            <q-chip
+            <q-btn
                 clickable
                 to="/vendor/itemsforsale"
                 color="accent"
                 text-color="white"
                 icon="event"
-            >My Items</q-chip>
+            >My Items</q-btn>
         </div>
     </div>
 </template>
@@ -61,7 +61,6 @@ export default defineComponent({
         return {
             login: null,
             user: null,
-
             orders: null,
             disputes: null,
             feedback: null,
@@ -95,8 +94,7 @@ export default defineComponent({
                             this.getvendorreturns();
                         }
                     }
-                    else
-                    {
+                    else {
                         console.log("err")
                     }
                 })

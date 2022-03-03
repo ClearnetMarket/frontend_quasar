@@ -1,6 +1,6 @@
 <template>
-  <q-page class="docs-input row justify-center">
-
+  <q-page class="docs-input r">
+  <div class="row justify-center">
     <div class="col-xs-12 col-sm-6 col-md-4  col-auto q-pt-xl ">
       <p class="text-center ">
         In order to unlock your account, please enter your account seed below.
@@ -80,6 +80,7 @@
           </div>
         </div>
       </q-form>
+    </div>
     </div>
   </q-page>
 </template>

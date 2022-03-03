@@ -2,7 +2,8 @@
   <q-layout view="hHh lpR fFf">
     <HeaderPlain />
 
-    <q-page class="docs-input row justify-center">
+    <q-page class="docs-input">
+              <div class="row justify-center">
       <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl">
         <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
           <div class="q-gutter-md q-pa-lg formlayout">
@@ -44,6 +45,7 @@
             </div>
           </div>
         </q-form>
+        </div>
       </div>
     </q-page>
 

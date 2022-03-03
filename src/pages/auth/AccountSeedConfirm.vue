@@ -1,73 +1,77 @@
 <template>
-  <q-page class="docs-input row justify-center">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl">
-      <p class="text-center">In order to unlock your account, please enter your account seed below.</p>
-      <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
-        <div class="q-gutter-md q-pa-lg formlayout">
-          <div class="row">
-            <div class="col-xs-12 text-center text-h4">Unlock Account</div>
-          </div>
-          <q-input
-            outlined
-            v-model="wordForm.word0"
-            label="Word 1"
-            autocomplete="off"
-            :dense="wordForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="wordForm.word1"
-            label="Word 2"
-            autocomplete="off"
-            :dense="wordForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="wordForm.word2"
-            label="Word 3"
-            autocomplete="off"
-            :dense="wordForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="wordForm.word3"
-            label="Word 4"
-            autocomplete="off"
-            :dense="wordForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="wordForm.word4"
-            label="Word 5"
-            autocomplete="off"
-            :dense="wordForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="wordForm.word5"
-            label="Word 6"
-            autocomplete="off"
-            :dense="wordForm.dense"
-          />
-          <div class="q-pa-md doc-container">
-            <div class="row justify-end">
-              <q-btn class="full-width" type="submit" color="secondary" label="Register" />
+  <q-page class="docs-input">
+    <div class="row justify-center">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl">
+        <p
+          class="text-center"
+        >In order to unlock your account, please enter your account seed below.</p>
+        <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
+          <div class="q-gutter-md q-pa-lg formlayout">
+            <div class="row">
+              <div class="col-xs-12 text-center text-h4">Unlock Account</div>
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-xs-12 text-center q-mb-md">
-              Want to Register?
-              <router-link to="/register">Register</router-link>
+            <q-input
+              outlined
+              v-model="wordForm.word0"
+              label="Word 1"
+              autocomplete="off"
+              :dense="wordForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="wordForm.word1"
+              label="Word 2"
+              autocomplete="off"
+              :dense="wordForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="wordForm.word2"
+              label="Word 3"
+              autocomplete="off"
+              :dense="wordForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="wordForm.word3"
+              label="Word 4"
+              autocomplete="off"
+              :dense="wordForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="wordForm.word4"
+              label="Word 5"
+              autocomplete="off"
+              :dense="wordForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="wordForm.word5"
+              label="Word 6"
+              autocomplete="off"
+              :dense="wordForm.dense"
+            />
+            <div class="q-pa-md doc-container">
+              <div class="row justify-end">
+                <q-btn class="full-width" type="submit" color="secondary" label="Register" />
+              </div>
             </div>
 
-            <div class="col-xs-12 text-center">
-              Login Here
-              <router-link to="/login">Login</router-link>
+            <div class="row">
+              <div class="col-xs-12 text-center q-mb-md">
+                Want to Register?
+                <router-link to="/register">Register</router-link>
+              </div>
+
+              <div class="col-xs-12 text-center">
+                Login Here
+                <router-link to="/login">Login</router-link>
+              </div>
             </div>
           </div>
-        </div>
-      </q-form>
+        </q-form>
+      </div>
     </div>
   </q-page>
 </template>

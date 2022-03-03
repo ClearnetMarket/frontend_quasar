@@ -1,79 +1,81 @@
 <template>
-  <q-page class="docs-input row justify-center">
-    <div class="col-xs-12 col-md-6 col-auto q-pt-xl">
-      <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
-        <div class="q-gutter-md q-pa-lg formlayout">
-          <div class="row">
-            <div class="col-xs-12 text-center text-h4">Get Started</div>
-          </div>
-          <q-input
-            outlined
-            v-model="registerForm.username"
-            label="Username"
-            autocomplete="off"
-            :dense="registerForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="registerForm.email"
-            label="Email"
-            autocomplete="off"
-            :dense="registerForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="registerForm.password"
-            label="Password"
-            type="password"
-            autocomplete="off"
-            :dense="registerForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="registerForm.password_confirm"
-            label="Confirm Password"
-            type="password"
-            autocomplete="off"
-            :dense="registerForm.dense"
-          />
+  <q-page class="docs-input">
+    <div class="row justify-center">
+      <div class="col-xs-12 col-md-6 col-auto q-pt-xl">
+        <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
+          <div class="q-gutter-md q-pa-lg formlayout">
+            <div class="row">
+              <div class="col-xs-12 text-center text-h4">Get Started</div>
+            </div>
+            <q-input
+              outlined
+              v-model="registerForm.username"
+              label="Username"
+              autocomplete="off"
+              :dense="registerForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="registerForm.email"
+              label="Email"
+              autocomplete="off"
+              :dense="registerForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="registerForm.password"
+              label="Password"
+              type="password"
+              autocomplete="off"
+              :dense="registerForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="registerForm.password_confirm"
+              label="Confirm Password"
+              type="password"
+              autocomplete="off"
+              :dense="registerForm.dense"
+            />
 
-          <q-select
-            outlined
-            v-model="registerForm.country"
-            :options="countryList"
-            option-value="id"
-            option-label="name"
-            label="Country"
-            :dense="registerForm.dense"
-          />
-          <q-select
-            outlined
-            v-model="registerForm.currency"
-            :options="currencyList"
-            option-value="id"
-            option-label="text"
-            label="Currency"
-            :dense="registerForm.dense"
-          />
-          <q-space />
-          <div class="q-pa-md doc-container">
-            <div class="row justify-end">
-              <q-btn type="submit" class="full-width" color="secondary" label="Register" />
+            <q-select
+              outlined
+              v-model="registerForm.country"
+              :options="countryList"
+              option-value="id"
+              option-label="name"
+              label="Country"
+              :dense="registerForm.dense"
+            />
+            <q-select
+              outlined
+              v-model="registerForm.currency"
+              :options="currencyList"
+              option-value="id"
+              option-label="text"
+              label="Currency"
+              :dense="registerForm.dense"
+            />
+            <q-space />
+            <div class="q-pa-md doc-container">
+              <div class="row justify-end">
+                <q-btn type="submit" class="full-width" color="secondary" label="Register" />
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 text-center q-mb-md">
-              Already Register?
-              <router-link to="/login">Login</router-link>
-            </div>
+            <div class="row">
+              <div class="col-xs-12 text-center q-mb-md">
+                Already Register?
+                <router-link to="/login">Login</router-link>
+              </div>
 
-            <div class="col-xs-12 text-center">
-              Forgot Password?
-              <router-link to="/forgotpassword">Forgot Password</router-link>
+              <div class="col-xs-12 text-center">
+                Forgot Password?
+                <router-link to="/forgotpassword">Forgot Password</router-link>
+              </div>
             </div>
           </div>
-        </div>
-      </q-form>
+        </q-form>
+      </div>
     </div>
   </q-page>
 </template>
@@ -83,6 +85,7 @@ import { defineComponent } from 'vue';
 import axios from 'axios';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+
 
 export default defineComponent({
   name: 'Register',
@@ -130,10 +133,13 @@ export default defineComponent({
         .then((response) => {
           if (response.data.user) {
             this.$q.cookies.set('auth_user', JSON.stringify(response.data.user),
-              { expires: 10, secure: true});
+              { expires: 10, secure: true });
+            // localStorage.setItem('auth_token-token', response.data.token)
             this.$q.cookies.set('auth_token', JSON.stringify(response.data.token),
-              { expires: 10, secure: true,});
+              { expires: 10, secure: true, });
+
             this.$store.dispatch('user', response.data.user);
+
             this.$router.push('/');
           }
         })
@@ -198,8 +204,8 @@ export default defineComponent({
         username: this.registerForm.username,
         password: this.registerForm.password,
         email: this.registerForm.email,
-        currency: '1',
-        country: '1',
+        currency: this.registerForm.currency,
+        country: this.registerForm.country,
       };
       await this.Register(payLoad);
     },

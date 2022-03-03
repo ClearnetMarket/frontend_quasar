@@ -1,49 +1,43 @@
 <template>
-  <q-page class="docs-input row justify-center">
+  <q-page class="docs-input">
+    <q-breadcrumbs class="text-info q-mt-md q-ml-lg">
+      <template v-slot:separator>
+        <q-icon size="1.5em" name="chevron_right" color="primary" />
+      </template>
 
-    <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl ">
-      <p class="text-center ">
-        Change Password
-      </p>
-      <q-form
-        class="q-px-sm q-pt-xl"
-        method="POST"
-        @submit="onSubmit"
-      >
-        <div class="q-gutter-md  q-pa-lg formlayout">
-          <div class="row">
-           <div class="col-xs-12 text-center text-h4">
-              Enter New Password
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+      <q-breadcrumbs-el label="Account" icon="person" to="/account" />
+    </q-breadcrumbs>
+    <div class="row justify-center">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl">
+        <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
+          <div class="q-gutter-md q-pa-lg formlayout">
+            <div class="row">
+              <div class="col-xs-12 text-center text-h4">Enter New Password</div>
+            </div>
+            <q-input
+              outlined
+              v-model="ChangePasswordForm.password"
+              label="Password"
+              autocomplete="off"
+              :dense="ChangePasswordForm.dense"
+            />
+            <q-input
+              outlined
+              v-model="ChangePasswordForm.password_confirm"
+              label="Confirm Password"
+              autocomplete="off"
+              :dense="ChangePasswordForm.dense"
+            />
+
+            <div class="q-pa-md doc-container">
+              <div class="row justify-end">
+                <q-btn class="full-width" type="submit" color="secondary" label="Change Password" />
+              </div>
             </div>
           </div>
-          <q-input
-            outlined
-            v-model="ChangePasswordForm.password"
-            label="Password"
-            autocomplete="off"
-            :dense="ChangePasswordForm.dense"
-          />
-          <q-input
-            outlined
-            v-model="ChangePasswordForm.password_confirm"
-            label="Confirm Password"
-            autocomplete="off"
-            :dense="ChangePasswordForm.dense"
-          />
-
-          <div class="q-pa-md doc-container">
-            <div class="row justify-end">
-              <q-btn
-                class="full-width"
-                type="submit"
-                color="secondary"
-                label="Change Password"
-              />
-            </div>
-          </div>
-
-        </div>
-      </q-form>
+        </q-form>
+      </div>
     </div>
   </q-page>
 </template>
@@ -56,7 +50,7 @@ import { ref } from 'vue';
 export default defineComponent({
   name: 'changepassword',
 
-  data() {
+  data () {
     return {
       ChangePasswordForm: {
         password: '',
@@ -68,7 +62,7 @@ export default defineComponent({
   },
 
   methods: {
-    sendWordRequest(payLoad: { password: string; password_confirm: string }) {
+    sendWordRequest (payLoad: { password: string; password_confirm: string }) {
       axios({
         method: 'post',
         url: '/auth/change-password',
@@ -107,7 +101,7 @@ export default defineComponent({
           }
         });
     },
-    onSubmit() {
+    onSubmit () {
       console.log('Submitted');
       const payLoad = {
         password: this.ChangePasswordForm.password,

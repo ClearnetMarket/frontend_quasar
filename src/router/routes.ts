@@ -15,6 +15,7 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+
   // Main Login Required  pages
   {
     path: '/',
@@ -34,10 +35,40 @@ const routes: RouteRecordRaw[] = [
         name: 'profile',
         component: () => import('pages/auth/Profile.vue'),
       },
+      {
+        path: '/sell',
+        name: 'sell',
+        component: () => import('pages/vendor/Sell.vue'),
+      },
+      {
+        path: '/vendor/itemsforsale',
+        name: 'forsale',
+        component: () => import('pages/vendor/itemsForSale.vue'),
+      },
+      {
+        path: '/vendor/pageone',
+        name: 'createone',
+        component: () => import('pages/vendorcreateitem/PageOne.vue'),
+      },
+      {
+        path: '/vendor/pagetwo',
+        name: 'createtwo',
+        component: () => import('pages/vendorcreateitem/PageTwo.vue'),
+      },
+      {
+        path: '/vendor/pagethree',
+        name: 'createthree',
+        component: () => import('pages/vendorcreateitem/PageThree.vue'),
+      },
+      {
+        path: '/vendor/pagefour',
+        name: 'createfour',
+        component: () => import('pages/vendorcreateitem/PageFour.vue'),
+      },
     ],
   },
 
-  // Plain Auth Stuff
+  // Plain Stuff
   {
     path: '/auth',
     component: () => import('layouts/SimpleLayout.vue'),
@@ -57,67 +88,12 @@ const routes: RouteRecordRaw[] = [
         name: 'forgotpassword',
         component: () => import('pages/auth/ForgotPassword.vue'),
       },
-      {
-        path: '/changepassword',
-        name: 'changepassword',
-        component: () => import('pages/auth/ChangePassword.vue'),
-        beforeEnter: (to, from, next) => {
-          const loggedIn = Cookies.get('auth_token');
-          console.log(loggedIn);
-          if (!loggedIn || loggedIn == null) {
-            next('/login');
-          } else {
-            next();
-          }
-        },
-      },
-      {
-        path: '/changepin',
-        name: 'changepin',
-        component: () => import('pages/auth/ChangePin.vue'),
-        beforeEnter: (to, from, next) => {
-          const loggedIn = Cookies.get('auth_token');
-          console.log(loggedIn);
-          if (!loggedIn || loggedIn == null) {
-            next('/login');
-          } else {
-            next();
-          }
-        },
-      },
-      {
-        path: '/account-seed',
-        name: 'accountseed',
-        component: () => import('pages/auth/AccountSeed.vue'),
-        beforeEnter: (to, from, next) => {
-          const loggedIn = Cookies.get('auth_token');
-          console.log(loggedIn);
-          if (!loggedIn || loggedIn == null) {
-            next('/login');
-          } else {
-            next();
-          }
-        },
-      },
-      {
-        path: '/account-seed-confirm',
-        name: 'accountseedconfirm',
-        component: () => import('pages/auth/AccountSeedConfirm.vue'),
-        beforeEnter: (to, from, next) => {
-          const loggedIn = Cookies.get('auth_token');
-          console.log(loggedIn);
-          if (!loggedIn || loggedIn == null) {
-            next('/login');
-          } else {
-            next();
-          }
-        },
-      },
     ],
   },
+
   // Plain  Account
   {
-    path: '/account',
+    path: '/',
     component: () => import('layouts/MainLayout.vue'),
     beforeEnter: (to, from, next) => {
       const loggedIn = Cookies.get('auth_token');
@@ -138,6 +114,26 @@ const routes: RouteRecordRaw[] = [
         path: '/account/profile',
         name: 'accountprofile',
         component: () => import('src/pages/auth/account/ProfileBasic.vue'),
+      },
+      {
+        path: '/changepassword',
+        name: 'changepassword',
+        component: () => import('pages/auth/ChangePassword.vue'),
+      },
+      {
+        path: '/changepin',
+        name: 'changepin',
+        component: () => import('pages/auth/ChangePin.vue'),
+      },
+      {
+        path: '/account-seed',
+        name: 'accountseed',
+        component: () => import('pages/auth/AccountSeed.vue'),
+      },
+      {
+        path: '/account-seed-confirm',
+        name: 'accountseedconfirm',
+        component: () => import('pages/auth/AccountSeedConfirm.vue'),
       },
     ],
   },

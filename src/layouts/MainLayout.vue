@@ -1,11 +1,13 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpR fFf" >
     <MainHeaderTop />
-    <q-page-container>
+    <q-page-container  style="max-width: 1300px; margin: 0 auto;">
       <MainHeaderMid />
       <MainHeaderBottom />
-      <MainHeaderVendor  v-show="user.admin_role > 5"/>
+      <MainHeaderVendor  v-show="user.admin_role > 1"/>
+      <div class="q-mx-xl">
       <router-view />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
