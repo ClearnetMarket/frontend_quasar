@@ -3,7 +3,7 @@
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-auto q-pt-xl ">
       <p class="text-center ">
-        If your account has been unlocked, you can change your password
+        Change Password
       </p>
       <q-form
         class="q-px-sm q-pt-xl"
@@ -19,14 +19,14 @@
           <q-input
             outlined
             v-model="ChangePasswordForm.password"
-            label="Word 1"
+            label="Password"
             autocomplete="off"
             :dense="ChangePasswordForm.dense"
           />
           <q-input
             outlined
             v-model="ChangePasswordForm.password_confirm"
-            label="Word 2"
+            label="Confirm Password"
             autocomplete="off"
             :dense="ChangePasswordForm.dense"
           />
@@ -42,15 +42,6 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-xs-12 text-center q-mb-md">
-              Want to Register? <router-link to="/register">Register</router-link>
-            </div>
-
-            <div class="col-xs-12 text-center ">
-              Login Here <router-link to="/login">Login</router-link>
-            </div>
-          </div>
         </div>
       </q-form>
     </div>

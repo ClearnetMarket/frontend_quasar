@@ -2,11 +2,12 @@
   <q-layout view="hHh lpR fFf">
     <q-header reveal elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-toolbar-title>
+        <q-toolbar-title class="linkcolor_topb">
           <router-link to="/">Clearnet Market</router-link>
         </q-toolbar-title>
         <div v-if="user">
-          <q-btn @click="logout()" class="q-ma-sm" color="secondary" label="Logout" />
+          <q-btn href="/account" class="q-ma-sm" color="secondary" >{{user.user_name}}</q-btn>
+        
         </div>
         <div v-if="!user">
           <q-btn href="/login" class="q-ma-sm" color="None" label="Sign In" />
@@ -44,3 +45,22 @@ export default defineComponent({
   }
 });
 </script>
+
+
+<style>
+.linkcolor_topb a:link {
+    color: #ffffff;
+    text-decoration: none;
+}
+.linkcolor_topb a:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
+.linkcolor_topb a:hover {
+    color: #ff9900;
+    text-decoration: none;
+}
+.linkcolor_topb a:active {
+    color: #ff9900;
+    text-decoration: none;
+}</style>

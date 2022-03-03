@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { Cookies } from 'quasar';
 
 const routes: RouteRecordRaw[] = [
-  // General Pages no login
+  // Main Pages no login
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-// Login Required Main pages
+  // Main Login Required  pages
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -33,11 +33,11 @@ const routes: RouteRecordRaw[] = [
         path: '/profile',
         name: 'profile',
         component: () => import('pages/auth/Profile.vue'),
-        
       },
     ],
   },
-  // Auth Stuff
+
+  // Plain Auth Stuff
   {
     path: '/auth',
     component: () => import('layouts/SimpleLayout.vue'),
@@ -61,6 +61,29 @@ const routes: RouteRecordRaw[] = [
         path: '/changepassword',
         name: 'changepassword',
         component: () => import('pages/auth/ChangePassword.vue'),
+        beforeEnter: (to, from, next) => {
+          const loggedIn = Cookies.get('auth_token');
+          console.log(loggedIn);
+          if (!loggedIn || loggedIn == null) {
+            next('/login');
+          } else {
+            next();
+          }
+        },
+      },
+      {
+        path: '/changepin',
+        name: 'changepin',
+        component: () => import('pages/auth/ChangePin.vue'),
+        beforeEnter: (to, from, next) => {
+          const loggedIn = Cookies.get('auth_token');
+          console.log(loggedIn);
+          if (!loggedIn || loggedIn == null) {
+            next('/login');
+          } else {
+            next();
+          }
+        },
       },
       {
         path: '/account-seed',
@@ -92,7 +115,34 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-// Error Pages
+  // Plain  Account
+  {
+    path: '/account',
+    component: () => import('layouts/MainLayout.vue'),
+    beforeEnter: (to, from, next) => {
+      const loggedIn = Cookies.get('auth_token');
+      console.log(loggedIn);
+      if (!loggedIn || loggedIn == null) {
+        next('/login');
+      } else {
+        next();
+      }
+    },
+    children: [
+      {
+        path: '/account',
+        name: 'account',
+        component: () => import('src/pages/auth/account/AccountHome.vue'),
+      },
+      {
+        path: '/account/profile',
+        name: 'accountprofile',
+        component: () => import('src/pages/auth/account/ProfileBasic.vue'),
+      },
+    ],
+  },
+
+  // Error Pages
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/error/Error404.vue'),

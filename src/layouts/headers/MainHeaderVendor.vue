@@ -80,7 +80,7 @@ export default defineComponent({
         async userstatus () {
             await axios({
                 method: 'get',
-                url: '/auth/check_session',
+                url: '/auth/whoami',
                 withCredentials: true,
                 headers: authHeader()
             })
@@ -94,6 +94,10 @@ export default defineComponent({
                             this.getvendororders();
                             this.getvendorreturns();
                         }
+                    }
+                    else
+                    {
+                        console.log("err")
                     }
                 })
         },

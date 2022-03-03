@@ -32,7 +32,7 @@
                         <div class="linkcolor_topb">
                             <q-btn-dropdown flat class="q-mt-sm linkcolor_topb" color="none" label="My Account">
                                 <q-list>
-                                    <q-item clickable v-close-popup to="/auth/account">
+                                    <q-item clickable v-close-popup to="/account">
                                         <q-item-section>
                                             <q-item-label>Account</q-item-label>
                                         </q-item-section>
