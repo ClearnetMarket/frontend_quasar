@@ -51,11 +51,19 @@
       </div>
     </div>
 
-    <div class="row" style="margin-bottom: 100px;">
+    <div class="row q-mb-xl" >
       <div class="col-12 text-center">
-        <q-form class="q-px-sm q-pt-xl" method="POST" @submit="onSubmit">
-          <q-toggle  v-model="accept" label="I accept the license and terms" />
-          <q-btn type="submit" class="full-width" color="secondary" label="Update" />
+        <q-form
+          class="q-px-sm q-pt-xl"
+          method="POST"
+          @submit="onSubmit"
+          :validation-schema="schema"
+        
+        >
+          <q-toggle v-model="accept"  name="acceptTerms" label="I accept the license and terms" />
+        
+          <q-btn type="submit" class color="accent" label="Submit" />
+            <ErrorMessage name="acceptTerms" />
         </q-form>
       </div>
     </div>
@@ -76,14 +84,21 @@ export default defineComponent({
   name: 'sell',
   setup () {
     const $q = useQuasar();
+    
+        // Create a form context with the validation schema
+
+
+   
   },
-  mounted(){
+
+  mounted () {
     this.userstatus()
   },
   data () {
     return {
       verification: '',
       accept: ref(false),
+      user_admin: '',
     };
   },
   computed: {
@@ -91,7 +106,9 @@ export default defineComponent({
   },
 
   methods: {
-     async userstatus () {
+
+
+    async userstatus () {
       await axios({
         method: 'get',
         url: '/auth/whoami',
@@ -100,24 +117,24 @@ export default defineComponent({
       })
         .then((response) => {
           if (response.status = 200) {
-            this.user_admin = response.data.user.admin_role
-           if (this.user_admin != 0){
-             this.$router.push('/vendor/itemsforsale');
-           }
+            this.user_admin = response.data.user.admin_role;
+            var admin_id = parseInt(this.user_admin);
+             if ((admin_id) != 0) {
+              this.$router.push('/vendor/itemsforsale');
+            }
           }
-            else 
-          {
+          else {
 
           }
         })
     },
-     async updateuser (payLoad: {
+    async Register (payLoad: {
       verification: string;
-    })
-     {
+    }) {
       await axios({
         method: 'post',
-        url: '/vendor/become-vendor',
+        url: '/',
+        // url: '/vendor/become-vendor',
         data: payLoad,
         withCredentials: true,
         headers: authHeader()
@@ -130,15 +147,14 @@ export default defineComponent({
               message: 'Success! You Are not a vendor',
               position: 'top'
             })
-             this.$router.push('/vendor/itemsforsale');
+            this.$router.push('/vendor/itemsforsale');
           }
         })
     },
     async onSubmit () {
       console.log('Submitted');
       const payLoad = {
-        verification: this.registerForm.username,
-
+        verification: this.verification,
       };
       await this.Register(payLoad);
     },

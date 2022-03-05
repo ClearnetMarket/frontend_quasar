@@ -1,5 +1,5 @@
 <template>
-    <q-page class="docs-input">
+    <q-page class="docs-input q-mb-xl">
         <q-breadcrumbs class="text-info q-mt-md q-ml-lg">
             <template v-slot:separator>
                 <q-icon size="1.5em" name="chevron_right" color="primary" />
@@ -33,7 +33,7 @@
                         :dense="CreateItemForm.dense"
                         :rules="[
                             val => !!val || '* Required',
-                            val => val.length < 2 || 'Please use maximum 10 character',
+                            val => val.length > 10 || 'Please use minimum 10 character',
                         ]"
                         lazy-rules
                     />
@@ -45,7 +45,7 @@
                 <div class="col-4 q-pa-sm">
                     <q-select
                         outlined
-                        v-model="CreateItemForm.category"
+                        v-model="CreateItemForm.category_id_0"
                         :options="categoryList"
                         option-value="cat_id"
                         option-label="name"
@@ -73,10 +73,7 @@
                         option-label="text"
                         label="Condition"
                         :dense="CreateItemForm.dense"
-                        :rules="[
-                            val => !!val || '* Required',
-                        
-                        ]"
+                        :rules="[val => !!val || '* Required']"
                         lazy-rules
                     />
                 </div>
@@ -102,8 +99,7 @@
                         fill-mask="0"
                         reverse-fill-mask
                         :dense="CreateItemForm.dense"
-                        :rules="[
-                            val => !!val || '* Required',
+                        :rules="[val => !!val || '* Required',
                         ]"
                         lazy-rules
                     />
@@ -132,7 +128,7 @@
                 <div class="col-3 q-pa-sm">
                     <q-input
                         outlined
-                        v-model.number="model"
+                        v-model="CreateItemForm.item_count"
                         type="number"
                         style="max-width: 200px"
                     />
@@ -168,7 +164,7 @@
                         <q-input
                             outlined
                             v-model="CreateItemForm.keywords"
-                            label="Item Title"
+                            label="Comma seperated keywords"
                             autocomplete="off"
                             :dense="CreateItemForm.dense"
                         />
@@ -206,7 +202,7 @@ export default defineComponent({
     name: 'pageone',
     setup () {
         const $q = useQuasar();
-        console.log("here")
+
     },
     mounted () {
         this.getCategoryList();
@@ -216,10 +212,8 @@ export default defineComponent({
     data () {
         return {
             currencyList: [],
-            countryList: [],
             categoryList: [],
             conditionList: [],
-
             CreateItemForm: {
                 title: '',
                 digital_currency_1: '',
@@ -227,7 +221,6 @@ export default defineComponent({
                 digital_currency_3: '',
                 item_condition: '',
                 item_count: '',
-                category_name_0: '',
                 category_id_0: '',
                 price: '',
                 currency: '',
@@ -259,7 +252,7 @@ export default defineComponent({
             digital_currency_3: string;
             item_condition: string;
             item_count: string;
-            category_name_0: string;
+
             category_id_0: string;
             price: string;
             currency: string;
@@ -350,6 +343,23 @@ export default defineComponent({
                 .catch((error) => {
                     console.error(error);
                 });
+        },
+        async onSubmit () {
+            console.log('Submitted');
+            const payLoad = {
+                title: this.CreateItemForm.title,
+                digital_currency_1: this.CreateItemForm.digital_currency_1,
+                digital_currency_2: this.CreateItemForm.digital_currency_2,
+                digital_currency_3: this.CreateItemForm.digital_currency_3,
+                item_condition: this.CreateItemForm.item_condition,
+                item_count: this.CreateItemForm.item_count,
+
+                category_id_0: this.CreateItemForm.category_id_0,
+                price: this.CreateItemForm.price,
+                currency: this.CreateItemForm.currency,
+                keywords: this.CreateItemForm.keywords,
+            };
+            await this.CreateItem(payLoad);
         },
     }
 });

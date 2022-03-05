@@ -1,14 +1,34 @@
 <template>
-    <q-page class="docs-input">
-        <q-breadcrumbs class="text-info q-mt-md q-ml-lg">
-            <template v-slot:separator>
-                <q-icon size="1.5em" name="chevron_right" color="primary" />
-            </template>
-            <q-breadcrumbs-el label="Home" icon="home" to="/" />
-        </q-breadcrumbs>
-
-
-    </q-page>
+  <q-page class="docs-input">
+    <q-breadcrumbs class="text-info q-mt-md q-ml-lg">
+      <template v-slot:separator>
+        <q-icon size="1.5em" name="chevron_right" color="primary" />
+      </template>
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+    </q-breadcrumbs>
+    
+    <div class="row q-my-md q-pa-lg bordered rcorners1">
+      <div class="col-12 font-weight-bold">
+        <h5 class="q-ma-none">Item Description</h5>
+        <hr />
+      </div>
+    </div>
+    <div class="q-pa-md q-gutter-sm">
+      <form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false">
+        <div class="row bordered rcorners1">
+          <div class="col-12 font-weight-bold">
+            <q-editor toolbar-bg="secondary" ref="editorRef" @paste="onPaste" v-model="editor" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="q-pa-md doc-container">
+      <div class="row justify-end">
+          <q-btn type="submit" class color="primary q-mx-md" label="Back to Images" />
+        <q-btn type="submit" class color="primary" label="Add Shipping" />
+      </div>
+    </div>
+  </q-page>
 </template>
 
 <script lang="ts">
@@ -22,55 +42,50 @@ import { mapGetters } from 'vuex';
 
 
 export default defineComponent({
-    name: 'pagethree',
-    setup () {
-        const $q = useQuasar();
-    },
-    data () {
-        return {
-            CreateItemForm: {
-            title: '',
-            digital_currency_1: '',
-            digital_currency_2: '',
-            digital_currency_3: '',
-            item_condition: '',
-            item_count: '',
-            category_name_0: '',
-            category_id_0: '',
-            price: '',
-            currency: '',
-            keywords: '',
+  name: 'pagethree',
+  setup () {
+    const $q = useQuasar();
+    return {
+      editor: ref('Add your description here')
+
+    }
+  },
+  data () {
+    return {
+      CreateItemForm: {
+        title: '',
+
       },
     };
   },
-    computed: {
-        ...mapGetters(['user']),
+  computed: {
+    ...mapGetters(['user']),
+  },
+  methods: {
+    async userstatus () {
+      await axios({
+        method: 'get',
+        url: '/auth/whoami',
+        withCredentials: true,
+        headers: authHeader()
+      })
+        .then((response) => {
+          if (response.status = 200) {
+          }
+        })
     },
-    methods: {
-        async userstatus () {
-            await axios({
-                method: 'get',
-                url: '/auth/whoami',
-                withCredentials: true,
-                headers: authHeader()
-            })
-                .then((response) => {
-                    if (response.status = 200) {
-                    }
-                })
-        },
-        async Register (payLoad: {
-            title: string;
-            digital_currency_1: string;
-            digital_currency_2: string;
-            digital_currency_3: string;
-            item_condition: string;
-            item_count: string;
-            category_name_0: string;
-            category_id_0: string;
-            price: string;
-            currency: string;
-            keywords: string;
+    async Register (payLoad: {
+      title: string;
+      digital_currency_1: string;
+      digital_currency_2: string;
+      digital_currency_3: string;
+      item_condition: string;
+      item_count: string;
+      category_name_0: string;
+      category_id_0: string;
+      price: string;
+      currency: string;
+      keywords: string;
     }) {
       const path = '/vendor-create/create-item-info';
       axios({
@@ -111,6 +126,6 @@ export default defineComponent({
           }
         });
     },
-    }
+  }
 });
 </script>
