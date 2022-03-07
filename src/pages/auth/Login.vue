@@ -90,11 +90,12 @@ export default defineComponent({
         data: payLoad,
       })
         .then((response) => {
+          
           if (response.data.user) {
             this.$q.cookies.set('user_token', JSON.stringify(response.data.user),
-              { expires: 10, secure: true });
+              { expires: 10, secure: false });
             this.$q.cookies.set('auth_token', JSON.stringify(response.data.token),
-              { expires: 10, secure: true });
+              { expires: 10, secure: false });
             this.$store.dispatch('user', response.data.user);
             this.$router.push('/');
           }

@@ -4,7 +4,10 @@
     <q-page-container  style="max-width: 1300px; margin: 0 auto;">
       <MainHeaderMid />
       <MainHeaderBottom />
+      <div v-if="user">
       <MainHeaderVendor  v-show="user.admin_role > 1"/>
+  
+      </div>
       <div class="q-mx-xl">
       <router-view />
       </div>

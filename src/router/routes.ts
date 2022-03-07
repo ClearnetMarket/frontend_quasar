@@ -45,25 +45,11 @@ const routes: RouteRecordRaw[] = [
         name: 'forsale',
         component: () => import('pages/vendor/itemsForSale.vue'),
       },
+      
       {
-        path: '/vendor/pageone',
-        name: 'createone',
-        component: () => import('pages/vendorcreateitem/PageOne.vue'),
-      },
-      {
-        path: '/vendor/pagetwo',
-        name: 'createtwo',
-        component: () => import('pages/vendorcreateitem/PageTwo.vue'),
-      },
-      {
-        path: '/vendor/pagethree',
-        name: 'createthree',
-        component: () => import('pages/vendorcreateitem/PageThree.vue'),
-      },
-      {
-        path: '/vendor/pagefour',
-        name: 'createfour',
-        component: () => import('pages/vendorcreateitem/PageFour.vue'),
+        path: '/vendor/createitem',
+        name: 'createitem',
+        component: () => import('pages/vendorcreateitem/CreateItem.vue'),
       },
     ],
   },

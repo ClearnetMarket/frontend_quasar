@@ -17,7 +17,7 @@
 
 <div class="row">
     <div class="col-12">
-      <q-btn color="primary" icon="mail" label="Create New Item" to="/vendor/pageone"/>
+      <q-btn color="primary" icon="mail" label="Create New Item" to="/vendor/createitem"/>
     </div>
 </div>
 
