@@ -1,11 +1,11 @@
-<template >
-    <q-page class="docs-input q-mb-xl widthstyle">
-        <q-breadcrumbs class="q-mt-md q-ml-lg">
+<template>
+    <q-page class="docs-input q-mb-xl">
+        <q-breadcrumbs class="text-info q-mt-md q-ml-lg">
             <template v-slot:separator>
-                <q-icon size="1.5em" name="chevron_right" />
+                <q-icon size="1.5em" name="chevron_right" color="primary" />
             </template>
-            <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'home' }" />
-            <q-breadcrumbs-el label="My Items" icon="local_mall" :to="{ name: 'forsale' }" />
+            <q-breadcrumbs-el label="Home" icon="home" to="/" />
+            <q-breadcrumbs-el label="My Items" icon="local_mall" to="/vendor/itemsforsale" />
         </q-breadcrumbs>
 
         <div class="row q-ma-none">
@@ -13,15 +13,19 @@
                 <h5 class="q-mt-sm">Create an Item</h5>
             </div>
         </div>
+
         <q-form method="post" enctype="multipart/form-data" @submit="onSubmit">
             <!-- Top Row-->
             <div class="row q-my-md q-pa-lg bordered rcorners1">
                 <div class="col-12 font-weight-bold">
-                    <h5 class="q-ma-none q-pb-md">Item Info</h5>
+                    <h5 class="q-ma-none">Item Info</h5>
+                    <hr />
                 </div>
+
+   
                 <!-- Title-->
-                <div class="col-12 col-sm-12 q-pa-sm">
-                    Title
+                <div class="col-2 q-pa-sm">Title</div>
+                <div class="col-4 q-pa-sm">
                     <q-input
                         outlined
                         v-model="CreateItemForm.basicInfo.title"
@@ -36,14 +40,16 @@
                         lazy-rules
                     />
                 </div>
+                <div class="col-6 q-pa-sm">The title is the headline for your listing</div>
+
                 <!-- Category -->
-                <div class="col-12 col-sm-6 q-pa-sm">
-                    Category
+                <div class="col-2 q-pa-sm">Category</div>
+                <div class="col-4 q-pa-sm">
                     <q-select
                         outlined
                         v-model="CreateItemForm.basicInfo.category_id_0"
                         :options="categoryList"
-                        option-value="value"
+                        option-value="cat_id"
                         option-label="name"
                         label="Condition"
                         :dense="CreateItemForm.dense"
@@ -53,32 +59,40 @@
                         lazy-rules
                     />
                 </div>
+                <div
+                    class="col-6 q-pa-sm"
+                >The category of your item. Used for searches, and finding your item.</div>
+
                 <!-- Condition -->
-                <div class="col-12 col-sm-6 q-pa-sm">
-                    Condition
+                <div class="col-2 q-pa-sm">Condition</div>
+                <div class="col-4 q-pa-sm">
                     <q-select
                         outlined
                         v-model="CreateItemForm.basicInfo.item_condition"
                         :options="conditionList"
-                        option-value="value"
+                        option-value="id"
                         option-label="text"
                         label="Condition"
                         :dense="CreateItemForm.dense"
                         :rules="[
-                            $rules.required('Condition is Required'),
+                            $rules.required('Category is Required'),
                         ]"
                         lazy-rules
                     />
                 </div>
+                <div class="col-6 q-pa-sm">The condition of your item</div>
             </div>
+
             <!-- Bottom Row -->
+
             <div class="row q-my-md q-pa-lg bordered rcorners1">
                 <div class="col-12 font-weight-bold">
-                    <h5 class="q-ma-none q-pb-md">Pricing</h5>
+                    <h5 class="q-ma-none">Pricing</h5>
+                    <hr />
                 </div>
-                <!-- Price-->
-                <div class="col-12 col-sm-6 q-pa-sm">
-                    Price
+                <!--   Price-->
+                <div class="col-2 q-pa-sm">Price</div>
+                <div class="col-4 q-pa-sm">
                     <q-input
                         outlined
                         v-model="CreateItemForm.pricingInfo.price"
@@ -94,16 +108,37 @@
                             $rules.minValue(1), 'Minimum value of 1'
                         ]"
                         lazy-rules
-                    />The price of the item in your local currency
+                    />
                 </div>
+                <div class="col-6 q-pa-sm">The price of the item in your local currency</div>
+
+                <!-- Currency -->
+
+                <div class="col-2 q-pa-sm">Currency</div>
+                <div class="col-4 q-pa-sm">
+                    <q-select
+                        outlined
+                        v-model="CreateItemForm.pricingInfo.currency"
+                        :options="currencyList"
+                        option-value="id"
+                        option-label="text"
+                        label="Currency"
+                        :dense="CreateItemForm.dense"
+                        :rules="[
+                            $rules.required('Currency is Required'),
+                        ]"
+                        lazy-rules
+                    />
+                </div>
+                <div class="col-6 q-pa-sm">The currency you are selling this item in.</div>
+
                 <!-- Item Count-->
-                <div class="col-12 col-sm-6 q-pa-sm">
-                    Quantity
+                <div class="col-2 q-pa-sm">Quantity</div>
+                <div class="col-3 q-pa-sm">
                     <q-input
                         outlined
                         v-model="CreateItemForm.pricingInfo.item_count"
                         type="number"
-                        :dense="CreateItemForm.dense"
                         style="max-width: 200px"
                         :rules="[
                             $rules.required('Amount is Required'),
@@ -111,20 +146,29 @@
                             $rules.minValue(1), 'Minimum value of 1'
                         ]"
                         lazy-rules
-                    />How many items you are selling
+                    />
                 </div>
+                <div class="col-6 q-pa-sm">How many items you are selling</div>
+
                 <!-- BTC Acepted -->
-                <div class="col-12 col-sm-6 q-pa-sm">
+                <div class="col-12 q-pa-sm">
                     <q-toggle
                         v-model="CreateItemForm.pricingInfo.digital_currency_1"
                         value="one"
                         label="Accept Bitcoin"
                     />
+                </div>
+
+                <!-- BTC CASH Acepted -->
+                <div class="col-12 q-pa-sm">
                     <q-toggle
                         v-model="CreateItemForm.pricingInfo.digital_currency_2"
                         label="Accept Bitcoin Cash"
                         value="two"
                     />
+                </div>
+                <!-- Monero Acepted -->
+                <div class="col-12 q-pa-sm">
                     <q-toggle
                         v-model="CreateItemForm.pricingInfo.digital_currency_3"
                         value="three"
@@ -132,15 +176,48 @@
                     />
                 </div>
             </div>
+
+            <div class="row q-my-md q-pa-lg bordered rcorners1">
+                <!-- KEYWORDS -->
+
+                <div class="col-12 font-weight-bold">
+                    <h5 class="q-ma-none">KeyWords</h5>
+                    <hr />
+                </div>
+                <div class="row">
+                    <div class="col-6 q-pa-sm">
+                        <q-input
+                            outlined
+                            v-model="CreateItemForm.basicInfo.keywords"
+                            label="Comma seperated keywords"
+                            autocomplete="off"
+                            :dense="CreateItemForm.dense"
+                            :rules="[
+                                $rules.required('Title is Required'),
+                                $rules.minLength(10, 'Your title should have at least 10 letters'),
+                                $rules.maxLength(250, 'Your title should not be larger than 0 letters')
+                            ]"
+                            lazy-rules
+                        />
+                    </div>
+                    <div class="col-6 q-pa-sm">
+                        Keywords are import to find your item in the Clearnet Market search engine. Comma seperated keywords are
+                        required to
+                        find your items.
+                    </div>
+                </div>
+            </div>
             <!-- Description -->
             <div class="row q-my-md q-pa-lg bordered rcorners1">
                 <div class="col-12 font-weight-bold">
-                    <h5 class="q-ma-none q-pb-md">Item Description</h5>
+                    <h5 class="q-ma-none">Item Description</h5>
+                    <hr />
                 </div>
                 <div class="col-12 font-weight-bold">
                     <q-editor
                         toolbar-bg="secondary"
                         ref="editorRef"
+                        @paste="onPaste"
                         v-model="CreateItemForm.basicInfo.item_description"
                         :rules="[
                             $rules.required('Description is required'),
@@ -150,10 +227,10 @@
                     />
                 </div>
             </div>
-            <!-- Shipping -->
-            <div class="row q-pa-lg bordered rcorners1">
+            <div class="row q-my-md q-pa-lg bordered rcorners1">
                 <div class="col-12 font-weight-bold">
-                    <h5 class="q-ma-none q-pb-md">Shipping</h5>
+                    <h5 class="q-ma-none">Shipping</h5>
+                    <hr />
                 </div>
                 <div class="col-12 font-weight-bold">
                     <div class="row q-mb-lg">
@@ -234,6 +311,7 @@
                                 reverse-fill-mask
                                 :dense="CreateItemForm.dense"
                                 :rules="[
+                                
                                     $rules.numeric('Numbers only'),
                                     $rules.minValue(1), 'Minimum value of 1'
                                 ]"
@@ -241,113 +319,9 @@
                             />
                         </div>
                     </div>
-                    <q-toggle
-                        value="online"
-                        label="WorldWide Shipping or Digital Item"
-                        v-model="isSelectDisabled"
-                    />
-                    <!-- What countrys shipping too -->
-                    <div class="row">
-                        Select countries you are shipping too.
-                        <div class="col-12 q-pa-sm">
-                            Main Country is Required.
-                            <q-select
-                                outlined
-                                v-model="CreateItemForm.shippingInfo.shipping_to_country_one"
-                                :options="countryList"
-                                option-value="value"
-                                option-label="name"
-                                label="Country"
-                                :dense="CreateItemForm.dense"
-                                :rules="[
-                                    $rules.required('Title is Required'),
-                                ]"
-                                lazy-rules
-                                 :disable="isSelectDisabled"
-                            />
-                        </div>
-                        <div class="col-6 q-pa-sm">
-                            Optional Country two
-                            <q-select
-                                outlined
-                                v-model="CreateItemForm.shippingInfo.shipping_to_country_two"
-                                :options="countryList"
-                                option-value="value"
-                                option-label="name"
-                                label="Country"
-                                :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
-                            />
-                        </div>
-                        <div class="col-6 q-pa-sm">
-                            Optional Country Five
-                            <q-select
-                                outlined
-                                v-model="CreateItemForm.shippingInfo.shipping_to_country_three"
-                                :options="countryList"
-                                option-value="value"
-                                option-label="name"
-                                label="Country"
-                                :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
-                            />
-                        </div>
-                        <div class="col-6 q-pa-sm">
-                            Optional Country Five
-                            <q-select
-                                outlined
-                                v-model="CreateItemForm.shippingInfo.shipping_to_country_four"
-                                :options="countryList"
-                                option-value="value"
-                                option-label="name"
-                                label="Country"
-                                :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
-                            />
-                        </div>
-                        <div class="col-6 q-pa-sm">
-                            Optional Country Five
-                            <q-select
-                                outlined
-                                v-model="CreateItemForm.shippingInfo.shipping_to_country_five"
-                                :options="countryList"
-                                option-value="value"
-                                option-label="name"
-                                label="Country"
-                                :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
-                            />
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div class="row q-my-md q-pa-lg bordered rcorners1">
-                <!-- KEYWORDS -->
-                <div class="col-12 font-weight-bold">
-                    <h5 class="q-ma-none q-pb-md">KeyWords</h5>
-                </div>
-                <div class="row">
-                    <div class="col-6 q-pa-sm">
-                        <q-input
-                            outlined
-                            v-model="CreateItemForm.basicInfo.keywords"
-                            label="Comma seperated keywords"
-                            autocomplete="off"
-                            :dense="CreateItemForm.dense"
-                            :rules="[
-                                $rules.required('Title is Required'),
-                                $rules.minLength(10, 'Your keywords should have at least 10 letters'),
-                                $rules.maxLength(250, 'Your keywords should not be larger than 250 letters')
-                            ]"
-                            lazy-rules
-                        />
-                    </div>
-                    <div class="col-6 q-pa-sm">
-                        Keywords are import to find your item in the Clearnet Market search engine.
-                        Comma seperated keywords are required to find your items.
-                    </div>
-                </div>
-            </div>
+
             <!-- Create Button -->
             <div class="q-pa-md doc-container">
                 <div class="row justify-end">
@@ -370,24 +344,22 @@ import { mapGetters } from 'vuex';
 
 
 export default defineComponent({
-    name: 'createitem',
+    name: 'pageone',
 
     setup () {
         const $q = useQuasar();
-        const isSelectDisabled = ref(false); // Form Toggle 
-        return {isSelectDisabled} // Form Toggle 
     },
     mounted () {
-        this.getCategoryList(); // Query Categories 
-        this.getConditionList();// Query Conditionlist 
-        this.getCountryList();// Query Countries 
+        this.getCategoryList();
+        this.getConditionList();
+        this.getCurrencyList();
     },
     data () {
         return {
             currencyList: [],
             categoryList: [],
             conditionList: [],
-            countryList: [],
+
             CreateItemForm: {
                 dense: ref(true),
                 basicInfo: {
@@ -403,9 +375,9 @@ export default defineComponent({
                     digital_currency_3: '',
                     item_count: '',
                     price: '',
+                    currency: '',
                 },
                 shippingInfo: {
-                    worldwide_shipping: '',
                     free_shipping: '',
                     free_shipping_days: '',
                     shipping_2: '',
@@ -414,11 +386,6 @@ export default defineComponent({
                     shipping_3: '',
                     shipping_3_days: '',
                     shipping_3_price: '',
-                    shipping_to_country_one: '',
-                    shipping_to_country_two: '',
-                    shipping_to_country_three: '',
-                    shipping_to_country_four: '',
-                    shipping_to_country_five: '',
                 },
             },
         };
@@ -427,7 +394,7 @@ export default defineComponent({
         ...mapGetters(['user']),
     },
     methods: {
-        async userstatus () { "user Auth"
+        async userstatus () {
             await axios({
                 method: 'get',
                 url: '/auth/whoami',
@@ -437,22 +404,23 @@ export default defineComponent({
                 .then((response) => {
                     if (response.status = 200) {
                     }
-                    else{
-                          this.$router.push("/")
-                    }
                 })
         },
+
         async CreateItem (payLoad: {
             title: string;
             item_condition: string;
             item_description: string;
             category_id_0: string;
             keywords: string;
+
             item_count: string;
             digital_currency_1: string;
             digital_currency_2: string;
             digital_currency_3: string;
             price: string;
+            currency: string;
+
             free_shipping: string;
             free_shipping_days: string;
             shipping_2: string;
@@ -461,13 +429,8 @@ export default defineComponent({
             shipping_3: string;
             shipping_3_days: string;
             shipping_3_price: string;
-            shipping_to_country_one: string;
-            shipping_to_country_two: string;
-            shipping_to_country_three: string;
-            shipping_to_country_four: string;
-            shipping_to_country_five: string;
         }) {
-            const path = '/vendorcreateitem/create-item-info';
+            const path = '/vendor-create/create-item-info';
             axios({
                 method: 'post',
                 url: path,
@@ -477,20 +440,7 @@ export default defineComponent({
             })
                 .then((response) => {
                     if (response.data.status == 'success') {
-                          this.$q.notify({
-                            type: 'positive',
-                            message: 'Item Created Successfully.',
-                            position: 'top'
-                        })
-                        this.$router.push("/vendor/itemsforsale")
-                    }
-                    if (response.data.status == 'error') {
-                        this.$router.push("/vendor/createitem")
-                        this.$q.notify({
-                            type: 'negative',
-                            message: 'Form Error: There was an error in item creation.',
-                            position: 'top'
-                        })
+                      this.$router.push("")
                     }
                 })
                 .catch((error) => {
@@ -519,9 +469,10 @@ export default defineComponent({
                     }
                 });
         },
-        async getCountryList () {// Get Countries
-            const path = '/vendorcreateitem/query/country';
+   
 
+        async getCurrencyList () {
+            const path = '/vendorcreateitem/query/currency';
             axios({
                 method: 'get', //you can set what request you want to be
                 url: path,
@@ -529,14 +480,14 @@ export default defineComponent({
                 data: '',
             })
                 .then((response) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    this.countryList = response.data;
+                    this.currencyList = response.data;
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         },
-        async getCategoryList () {// Get Categories
+
+        async getCategoryList () {
             const path = '/vendorcreateitem/query/category';
             await axios({
                 method: 'get', //you can set what request you want to be
@@ -551,10 +502,10 @@ export default defineComponent({
                     console.error(error);
                 });
         },
-        async getConditionList () {// Get Conditions
+        async getConditionList () {
             const path = '/vendorcreateitem/query/condition';
             await axios({
-                method: 'get',
+                method: 'get', //you can set what request you want to be
                 url: path,
                 withCredentials: true,
                 data: '',
@@ -567,18 +518,21 @@ export default defineComponent({
                     console.error(error);
                 });
         },
-        async onSubmit () {// Submit Data for payload
+        async onSubmit () {
             const payLoad = {
                 title: this.CreateItemForm.basicInfo.title,
                 item_condition: this.CreateItemForm.basicInfo.item_condition,
                 item_description: this.CreateItemForm.basicInfo.item_description,
                 keywords: this.CreateItemForm.basicInfo.keywords,
                 category_id_0: this.CreateItemForm.basicInfo.category_id_0,
+
                 digital_currency_1: this.CreateItemForm.pricingInfo.digital_currency_1,
                 digital_currency_2: this.CreateItemForm.pricingInfo.digital_currency_2,
                 digital_currency_3: this.CreateItemForm.pricingInfo.digital_currency_3,
                 item_count: this.CreateItemForm.pricingInfo.item_count,
                 price: this.CreateItemForm.pricingInfo.price,
+                currency: this.CreateItemForm.pricingInfo.currency,
+
                 free_shipping: this.CreateItemForm.shippingInfo.free_shipping,
                 free_shipping_days: this.CreateItemForm.shippingInfo.free_shipping_days,
                 shipping_2: this.CreateItemForm.shippingInfo.shipping_2,
@@ -587,11 +541,6 @@ export default defineComponent({
                 shipping_3: this.CreateItemForm.shippingInfo.shipping_3,
                 shipping_3_days: this.CreateItemForm.shippingInfo.shipping_3_days,
                 shipping_3_price: this.CreateItemForm.shippingInfo.shipping_3_price,
-                shipping_to_country_one: this.CreateItemForm.shippingInfo.shipping_to_country_one,
-                shipping_to_country_two: this.CreateItemForm.shippingInfo.shipping_to_country_two,
-                shipping_to_country_three: this.CreateItemForm.shippingInfo.shipping_to_country_three,
-                shipping_to_country_four: this.CreateItemForm.shippingInfo.shipping_to_country_four,
-                shipping_to_country_five: this.CreateItemForm.shippingInfo.shipping_to_country_five,
             };
             this.CreateItem(payLoad);
         },
@@ -601,10 +550,6 @@ export default defineComponent({
 
 
 <style type="ts" scoped>
-.widthstyle {
-    max-width: 900px;
-    margin: 0 auto;
-}
 .bordered {
     border-style: solid;
     border-width: 1px;

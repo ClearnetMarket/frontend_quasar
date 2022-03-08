@@ -15,14 +15,12 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
   // Main Login Required  pages
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     beforeEnter: (to, from, next) => {
       const loggedIn = Cookies.get('auth_token');
-      console.log(loggedIn);
       if (!loggedIn || loggedIn == null) {
         next('/login');
       } else {
@@ -45,18 +43,29 @@ const routes: RouteRecordRaw[] = [
         name: 'forsale',
         component: () => import('pages/vendor/itemsForSale.vue'),
       },
-      
       {
         path: '/vendor/createitem',
         name: 'createitem',
         component: () => import('pages/vendorcreateitem/CreateItem.vue'),
       },
+            {
+        path: '/vendor/createitem/images',
+        name: 'createitemimages',
+        component: () => import('pages/vendorcreateitem/CreateItemImages.vue'),
+      },
     ],
   },
 
+
+
+
+
+
+
+
   // Plain Stuff
   {
-    path: '/auth',
+    path: '/',
     component: () => import('layouts/SimpleLayout.vue'),
     children: [
       {
@@ -76,14 +85,13 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
-  // Plain  Account
+  // Plain  Logged in Required
   {
-    path: '/',
+    path: '/account',
     component: () => import('layouts/MainLayout.vue'),
     beforeEnter: (to, from, next) => {
       const loggedIn = Cookies.get('auth_token');
-      console.log(loggedIn);
+  
       if (!loggedIn || loggedIn == null) {
         next('/login');
       } else {

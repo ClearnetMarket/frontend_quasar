@@ -42,7 +42,7 @@
               outlined
               v-model="registerForm.country"
               :options="countryList"
-              option-value="id"
+              option-value="value"
               option-label="name"
               label="Country"
               :dense="registerForm.dense"
@@ -51,7 +51,7 @@
               outlined
               v-model="registerForm.currency"
               :options="currencyList"
-              option-value="id"
+              option-value="value"
               option-label="text"
               label="Currency"
               :dense="registerForm.dense"
