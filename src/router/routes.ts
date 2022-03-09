@@ -48,11 +48,7 @@ const routes: RouteRecordRaw[] = [
         name: 'createitem',
         component: () => import('pages/vendorcreateitem/CreateItem.vue'),
       },
-            {
-        path: '/vendor/createitem/images',
-        name: 'createitemimages',
-        component: () => import('pages/vendorcreateitem/CreateItemImages.vue'),
-      },
+         
     ],
   },
 

@@ -13,6 +13,89 @@
                 <h5 class="q-mt-sm">Create an Item</h5>
             </div>
         </div>
+              
+            <!-- Images -->
+            <div class="row q-my-md q-pa-lg bordered rcorners1">
+                <div class="col-12 font-weight-bold">
+                    <h5 class="q-ma-none">Images</h5>
+                    <hr />
+                </div>
+
+                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                    <q-uploader
+                        class="col-12 bg-grey-5"
+                        style="width:100%; min-height: 250px; padding: 10px;"
+                        :factory="factoryFnMain"
+                        label="Main Image"
+                        field-name="main_image"
+                        hide-upload-btn
+                        auto-upload
+                        max-file-size="5120000"
+                        max-files="1"
+                        use-chips
+                        dense
+                        accept=".jpg, .png, .gif"
+                        @uploaded="onUploaded"
+                        @failed="onFailed"
+                        @rejected="onRejected"
+                    />
+                </div>
+                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                    <q-uploader
+                        class="col-12 bg-grey-5"
+                        style="width:100%; min-height: 250px; padding: 10px;"
+                        :factory="factoryFnMain"
+                        label="Secondary Image"
+                        field-name="image_two"
+                        hide-upload-btn
+                        auto-upload
+                        max-file-size="5120000"
+                        max-files="1"
+                        use-chips
+                        dense
+                        accept=".jpg, .png, .gif"
+                        @uploaded="onUploaded"
+                        @failed="onFailed"
+                        @rejected="onRejected"
+                    />
+                </div>
+                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                    <q-uploader
+                        class="col-12 bg-grey-5"
+                        style="width:100%; min-height: 250px; padding: 10px;"
+                        :factory="factoryFnMain"
+                        label="Secondary Image"
+                        field-name="image_three"
+                        hide-upload-btn
+                        auto-upload
+                        max-file-size="5120000"
+                        max-files="1"
+                        use-chips
+                        dense
+                        accept=".jpg, .png, .gif"
+                        @uploaded="onUploaded"
+                        @failed="onFailed"
+                        @rejected="onRejected"
+                    />
+                </div>
+                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                    <q-uploader
+                        class="col-12 bg-grey-5"
+                        style="width:100%; min-height: 250px; padding: 10px;"
+                        :factory="factoryFnMain"
+                        label="Secondary Image"
+                        field-name="image_four"
+                        auto-upload
+                        hide-upload-btn
+                        max-file-size="5120000"
+                        max-files="1"
+                        accept=".jpg, .png, .gif"
+                        @uploaded="onUploaded"
+                        @failed="onFailed"
+                        @rejected="onRejected"
+                    />
+                </div>
+            </div>
         <q-form method="post" enctype="multipart/form-data" @submit="onSubmit">
             <!-- Top Row-->
             <div class="row q-my-md q-pa-lg bordered rcorners1">
@@ -263,7 +346,7 @@
                                     $rules.required('Title is Required'),
                                 ]"
                                 lazy-rules
-                                 :disable="isSelectDisabled"
+                                :disable="isSelectDisabled"
                             />
                         </div>
                         <div class="col-6 q-pa-sm">
@@ -276,7 +359,7 @@
                                 option-label="name"
                                 label="Country"
                                 :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
+                                :disable="isSelectDisabled"
                             />
                         </div>
                         <div class="col-6 q-pa-sm">
@@ -289,7 +372,7 @@
                                 option-label="name"
                                 label="Country"
                                 :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
+                                :disable="isSelectDisabled"
                             />
                         </div>
                         <div class="col-6 q-pa-sm">
@@ -302,7 +385,7 @@
                                 option-label="name"
                                 label="Country"
                                 :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
+                                :disable="isSelectDisabled"
                             />
                         </div>
                         <div class="col-6 q-pa-sm">
@@ -315,7 +398,7 @@
                                 option-label="name"
                                 label="Country"
                                 :dense="CreateItemForm.dense"
-                                   :disable="isSelectDisabled"
+                                :disable="isSelectDisabled"
                             />
                         </div>
                     </div>
@@ -366,8 +449,7 @@ import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import authHeader from '../../services/auth.header';
 import { mapGetters } from 'vuex';
-
-
+import { Cookies } from 'quasar';
 
 export default defineComponent({
     name: 'createitem',
@@ -375,15 +457,20 @@ export default defineComponent({
     setup () {
         const $q = useQuasar();
         const isSelectDisabled = ref(false); // Form Toggle 
-        return {isSelectDisabled} // Form Toggle 
+        return { isSelectDisabled } // Form Toggle 
     },
     mounted () {
+        this.createitemtemporary();
+        this.userstatus();
         this.getCategoryList(); // Query Categories 
         this.getConditionList();// Query Conditionlist 
         this.getCountryList();// Query Countries 
     },
+
     data () {
         return {
+            item_id: '',
+            authtoken: '',
             currencyList: [],
             categoryList: [],
             conditionList: [],
@@ -425,9 +512,27 @@ export default defineComponent({
     },
     computed: {
         ...mapGetters(['user']),
+
     },
     methods: {
-        async userstatus () { "user Auth"
+        async createitemtemporary () { // Create an Item.  // Using thi
+            await axios({
+                method: 'GET',
+                url: '/vendorcreateitem/create-item',
+                withCredentials: true,
+                headers: authHeader()
+            })
+                .then((response) => {
+                    if (response.status = 200) {
+                        this.item_id = response.data.item_id
+                        console.log(this.item_id)
+                    }
+                    else {
+                        this.$router.push("/")
+                    }
+                })
+        },
+        async userstatus () { //user Auth
             await axios({
                 method: 'get',
                 url: '/auth/whoami',
@@ -436,40 +541,44 @@ export default defineComponent({
             })
                 .then((response) => {
                     if (response.status = 200) {
+                        this.authtoken = Cookies.get('auth_token')
                     }
-                    else{
-                          this.$router.push("/")
+                    else {
+                        this.$router.push("/")
                     }
                 })
         },
-        async CreateItem (payLoad: {
-            title: string;
-            item_condition: string;
-            item_description: string;
-            category_id_0: string;
-            keywords: string;
-            item_count: string;
-            digital_currency_1: string;
-            digital_currency_2: string;
-            digital_currency_3: string;
-            price: string;
-            free_shipping: string;
-            free_shipping_days: string;
-            shipping_2: string;
-            shipping_2_days: string;
-            shipping_2_price: string;
-            shipping_3: string;
-            shipping_3_days: string;
-            shipping_3_price: string;
-            shipping_to_country_one: string;
-            shipping_to_country_two: string;
-            shipping_to_country_three: string;
-            shipping_to_country_four: string;
-            shipping_to_country_five: string;
-        }) {
-            const path = '/vendorcreateitem/create-item-info';
+        async CreateItem (
+
+            payLoad: {
+                item_id: string;
+                title: string;
+                item_condition: string;
+                item_description: string;
+                category_id_0: string;
+                keywords: string;
+                item_count: string;
+                digital_currency_1: string;
+                digital_currency_2: string;
+                digital_currency_3: string;
+                price: string;
+                free_shipping: string;
+                free_shipping_days: string;
+                shipping_2: string;
+                shipping_2_days: string;
+                shipping_2_price: string;
+                shipping_3: string;
+                shipping_3_days: string;
+                shipping_3_price: string;
+                shipping_to_country_one: string;
+                shipping_to_country_two: string;
+                shipping_to_country_three: string;
+                shipping_to_country_four: string;
+                shipping_to_country_five: string;
+            }) {
+            const path = '/vendorcreateitem/create-item-main' + this.item_id;
             axios({
-                method: 'post',
+                method: 'put',
                 url: path,
                 data: payLoad,
                 withCredentials: true,
@@ -477,12 +586,13 @@ export default defineComponent({
             })
                 .then((response) => {
                     if (response.data.status == 'success') {
-                          this.$q.notify({
+                        this.$q.notify({
                             type: 'positive',
                             message: 'Item Created Successfully.',
                             position: 'top'
                         })
-                        this.$router.push("/vendor/itemsforsale")
+                        // let itemid = response.data.item_id
+                        this.$router.push('/vendor/itemsforsale')
                     }
                     if (response.data.status == 'error') {
                         this.$router.push("/vendor/createitem")
@@ -567,8 +677,59 @@ export default defineComponent({
                     console.error(error);
                 });
         },
+        factoryFnMain (files) {
+            console.log(files)
+            const authtoken = Cookies.get('auth_token')
+            return new Promise((resolve) => {
+                // simulating a delay of 2 seconds
+       
+                setTimeout(() => {
+                    resolve({
+                        url: 'http://192.168.1.101:5000/vendorcreateitem/create-item-images/' + this.item_id ,
+                        headers: [
+                            {name: 'Authorization', value:'bearer ' + authtoken},
+                            
+                        ],
+                     
+                    })
+                }, 2000)
+            })
+        },
+
+        // eslint-disable-next-line no-console
+        onUploaded (info) {
+            let files = info.files
+            files.forEach(item => {
+                this.$q.notify({
+                    type: 'positive',
+                    message: `${item.name} successfully uploaded`
+                })
+            })
+        },
+        // eslint-disable-next-line no-console
+        onFailed (info) {
+            let err = JSON.parse(info.xhr.response)
+            console.log(err)
+            let files = info.files
+            files.forEach(item => {
+                this.$q.notify({
+                    type: 'negative',
+                    message: `${item.name} - ${err.error} Error ${err.message}`
+                })
+            })
+        },
+        // eslint-disable-next-line no-console
+        onRejected (rejectedEntries) {
+            this.$q.notify({
+                type: 'negative',
+                message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+            })
+        },
+
+
         async onSubmit () {// Submit Data for payload
             const payLoad = {
+                item_id: this.item_id,
                 title: this.CreateItemForm.basicInfo.title,
                 item_condition: this.CreateItemForm.basicInfo.item_condition,
                 item_description: this.CreateItemForm.basicInfo.item_description,
