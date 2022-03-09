@@ -14,6 +14,13 @@
               autocomplete="off"
               :dense="registerForm.dense"
             />
+              <q-input
+              outlined
+              v-model="registerForm.display_username"
+              label="Display username (Can be changed.  This is what appears to other users.)"
+              autocomplete="off"
+              :dense="registerForm.dense"
+            />
             <q-input
               outlined
               v-model="registerForm.email"
@@ -101,6 +108,7 @@ export default defineComponent({
       countryList: [],
       registerForm: {
         username: '',
+        display_username: '',
         email: '',
         password: '',
         password_confirm: '',
@@ -117,6 +125,7 @@ export default defineComponent({
 
   methods: {
     async Register (payLoad: {
+      display_username: string;
       username: string;
       password: string;
       email: string;
@@ -202,6 +211,7 @@ export default defineComponent({
       console.log('Submitted');
       const payLoad = {
         username: this.registerForm.username,
+        display_username: this.registerForm.display_username,
         password: this.registerForm.password,
         email: this.registerForm.email,
         currency: this.registerForm.currency,

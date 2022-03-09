@@ -13,15 +13,25 @@
                 <h5 class="q-mt-sm">Create an Item</h5>
             </div>
         </div>
-              
-            <!-- Images -->
-            <div class="row q-my-md q-pa-lg bordered rcorners1">
-                <div class="col-12 font-weight-bold">
-                    <h5 class="q-ma-none">Images</h5>
-                    <hr />
-                </div>
 
-                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+        <!-- Images -->
+        <div class="row q-my-md q-pa-lg bordered rcorners1">
+            <div class="col-12 font-weight-bold">
+                <h5 class="q-ma-none">Images</h5>
+                <hr />
+            </div>
+
+            <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                <div v-if="marketitem.image_one_server">
+                    <q-btn
+                        color="negative"
+                        text-color="white"
+                        label="Delete Image"
+                        @click="deleteitemimage(marketitem.image_one_server)"
+                    />
+                    <q-img :src=marketitem.image_one_url :ratio="1" />
+                </div>
+                <div v-else>
                     <q-uploader
                         class="col-12 bg-grey-5"
                         style="width:100%; min-height: 250px; padding: 10px;"
@@ -40,12 +50,23 @@
                         @rejected="onRejected"
                     />
                 </div>
-                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+            </div>
+            <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                <div v-if="marketitem.image_two_server">
+                    <q-btn
+                        color="negative"
+                        text-color="white"
+                        label="Delete Image"
+                        @click="deleteitemimage(marketitem.image_two_server)"
+                    />
+                      <q-img :src=marketitem.image_two_url :ratio="1" />
+                </div>
+                <div v-else>
                     <q-uploader
                         class="col-12 bg-grey-5"
                         style="width:100%; min-height: 250px; padding: 10px;"
                         :factory="factoryFnMain"
-                        label="Secondary Image"
+                        label="Second Image"
                         field-name="image_two"
                         hide-upload-btn
                         auto-upload
@@ -59,12 +80,23 @@
                         @rejected="onRejected"
                     />
                 </div>
-                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+            </div>
+            <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                <div v-if="marketitem.image_three_server">
+                    <q-btn
+                        color="negative"
+                        text-color="white"
+                        label="Delete Image"
+                        @click="deleteitemimage(marketitem.image_three_server)"
+                    />
+                       <q-img :src=marketitem.image_three_url :ratio="1" />
+                </div>
+                <div v-else>
                     <q-uploader
                         class="col-12 bg-grey-5"
                         style="width:100%; min-height: 250px; padding: 10px;"
                         :factory="factoryFnMain"
-                        label="Secondary Image"
+                        label="Third Image"
                         field-name="image_three"
                         hide-upload-btn
                         auto-upload
@@ -78,12 +110,23 @@
                         @rejected="onRejected"
                     />
                 </div>
-                <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+            </div>
+            <div class="justify-center col-12 col-sm-6 col-md-3 q-px-lg">
+                <div v-if="marketitem.image_four_server">
+                    <q-btn
+                        color="negative"
+                        text-color="white"
+                        label="Delete Image"
+                        @click="deleteitemimage(marketitem.image_four_server)"
+                    />
+                       <q-img :src=marketitem.image_four_url :ratio="1" />
+                </div>
+                <div v-else>
                     <q-uploader
                         class="col-12 bg-grey-5"
                         style="width:100%; min-height: 250px; padding: 10px;"
                         :factory="factoryFnMain"
-                        label="Secondary Image"
+                        label="Fourth Image"
                         field-name="image_four"
                         auto-upload
                         hide-upload-btn
@@ -96,6 +139,7 @@
                     />
                 </div>
             </div>
+        </div>
         <q-form method="post" enctype="multipart/form-data" @submit="onSubmit">
             <!-- Top Row-->
             <div class="row q-my-md q-pa-lg bordered rcorners1">
@@ -450,6 +494,7 @@ import { useQuasar } from 'quasar';
 import authHeader from '../../services/auth.header';
 import { mapGetters } from 'vuex';
 import { Cookies } from 'quasar';
+import { constants } from 'perf_hooks';
 
 export default defineComponent({
     name: 'createitem',
@@ -460,17 +505,28 @@ export default defineComponent({
         return { isSelectDisabled } // Form Toggle 
     },
     mounted () {
-        this.createitemtemporary();
         this.userstatus();
+        this.createitemtemporary();
+
         this.getCategoryList(); // Query Categories 
         this.getConditionList();// Query Conditionlist 
         this.getCountryList();// Query Countries 
+
     },
 
     data () {
+
         return {
             item_id: '',
+            marketitem: '',
             authtoken: '',
+
+            imageone: '',
+            imagetwo: '',
+            imagethree: '',
+            imagefour: '',
+            imagefive: '',
+
             currencyList: [],
             categoryList: [],
             conditionList: [],
@@ -508,6 +564,7 @@ export default defineComponent({
                     shipping_to_country_five: '',
                 },
             },
+
         };
     },
     computed: {
@@ -515,6 +572,49 @@ export default defineComponent({
 
     },
     methods: {
+        imagepath: function(imagename) {
+            {
+                return '/mnt/clearnet/item/' + this.item_id + '/' + imagename+".jpg"
+            
+            }
+        },
+
+        async deleteitemimage (imagename) { // deleet image
+            const path = '/vendorcreateitem/delete-image/' + this.item_id + '/' + imagename ;
+            await axios({
+                method: 'delete',
+                url: path,
+                withCredentials: true,
+                headers: authHeader()
+            })
+                .then((response) => {
+                    if (response.status = 200) {
+                        this.getItemForSale()
+                    }
+                    else {
+
+                    }
+                })
+        },
+        async getItemForSale () {// Get the item thats being modified
+
+            const path = '/item/' + this.item_id;
+            await axios({
+                method: 'get',
+                url: path,
+                withCredentials: true,
+
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        this.marketitem = response.data;
+                        console.log(this.marketitem)
+                    }
+                })
+                .catch((error) => {
+
+                });
+        },
         async createitemtemporary () { // Create an Item.  // Using thi
             await axios({
                 method: 'GET',
@@ -525,7 +625,7 @@ export default defineComponent({
                 .then((response) => {
                     if (response.status = 200) {
                         this.item_id = response.data.item_id
-                        console.log(this.item_id)
+                        this.getItemForSale()
                     }
                     else {
                         this.$router.push("/")
@@ -591,7 +691,7 @@ export default defineComponent({
                             message: 'Item Created Successfully.',
                             position: 'top'
                         })
-                        // let itemid = response.data.item_id
+
                         this.$router.push('/vendor/itemsforsale')
                     }
                     if (response.data.status == 'error') {
@@ -629,6 +729,7 @@ export default defineComponent({
                     }
                 });
         },
+
         async getCountryList () {// Get Countries
             const path = '/vendorcreateitem/query/country';
 
@@ -678,19 +779,18 @@ export default defineComponent({
                 });
         },
         factoryFnMain (files) {
-            console.log(files)
             const authtoken = Cookies.get('auth_token')
             return new Promise((resolve) => {
                 // simulating a delay of 2 seconds
-       
+
                 setTimeout(() => {
                     resolve({
-                        url: 'http://192.168.1.101:5000/vendorcreateitem/create-item-images/' + this.item_id ,
+                        url: 'http://192.168.1.101:5000/vendorcreateitem/create-item-images/' + this.item_id,
                         headers: [
-                            {name: 'Authorization', value:'bearer ' + authtoken},
-                            
+                            { name: 'Authorization', value: 'bearer ' + authtoken },
+
                         ],
-                     
+
                     })
                 }, 2000)
             })
@@ -705,6 +805,7 @@ export default defineComponent({
                     message: `${item.name} successfully uploaded`
                 })
             })
+            this.getItemForSale()
         },
         // eslint-disable-next-line no-console
         onFailed (info) {
