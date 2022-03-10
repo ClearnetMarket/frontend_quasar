@@ -45,6 +45,15 @@
               :dense="registerForm.dense"
             />
 
+            <q-input
+              outlined
+              v-model="registerForm.pin"
+              label="4 Digit Wallet Pin"
+              type="password"
+              autocomplete="off"
+              :dense="registerForm.dense"
+            />
+
             <q-select
               outlined
               v-model="registerForm.country"
@@ -110,6 +119,7 @@ export default defineComponent({
         username: '',
         display_username: '',
         email: '',
+        pin:'',
         password: '',
         password_confirm: '',
         currency: '',
@@ -129,6 +139,7 @@ export default defineComponent({
       username: string;
       password: string;
       email: string;
+      pin:string;
       country: string;
       currency: string;
     }) {
@@ -211,6 +222,7 @@ export default defineComponent({
       console.log('Submitted');
       const payLoad = {
         username: this.registerForm.username,
+        pin: this.registerForm.pin,
         display_username: this.registerForm.display_username,
         password: this.registerForm.password,
         email: this.registerForm.email,

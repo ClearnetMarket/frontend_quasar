@@ -144,7 +144,7 @@ export default defineComponent({
 
             this.$q.notify({
               type: 'positive',
-              message: 'Success! You Are not a vendor',
+              message: 'Success! You are now a vendor',
               position: 'top'
             })
             this.$router.push('/vendor/itemsforsale');

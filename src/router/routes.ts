@@ -45,15 +45,83 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: '/vendor/createitem',
-        name: 'createitem',
+        name: 'createquick',
         component: () => import('pages/vendorcreateitem/CreateItem.vue'),
+      },
+            {
+        path: '/vendor/edititem/:id',
+        name: 'edititem',
+        component: () => import('pages/vendorcreateitem/EditItem.vue'),
       },
          
     ],
   },
 
 
+  // Account  Logged in Required
+  {
+    path: '/wallet',
+    component: () => import('layouts/MainLayout.vue'),
+    beforeEnter: (to, from, next) => {
+      const loggedIn = Cookies.get('auth_token');
+  
+      if (!loggedIn || loggedIn == null) {
+        next('/login');
+      } else {
+        next();
+      }
+    },
+    children: [
+      {
+        path: '/wallet/btc',
+        name: 'btcwallet',
+        component: () => import('src/pages/wallets/btc/BtcTransactions.vue'),
+      },
+      {
+        path: '/wallet/btc/send',
+        name: 'btcwalletsend',
+        component: () => import('src/pages/wallets/btc/BtcSend.vue'),
+      },
+      {
+        path: '/wallet/btc/recieve',
+        name: 'btcwalletrecieve',
+        component: () => import('src/pages/wallets/btc/BtcRecieve.vue'),
+      },
+      {
+        path: '/wallet/bch',
+        name: 'bchwallet',
+        component: () => import('src/pages/wallets/bch/BchTransactions.vue'),
+      },
+ 
+      {
+        path: '/wallet/bch/send',
+        name: 'bchwalletsend',
+        component: () => import('src/pages/wallets/bch/BchSend.vue'),
+      },
+            {
+        path: '/wallet/bch/recieve',
+        name: 'bchwalletrecieve',
+        component: () => import('src/pages/wallets/bch/BchRecieve.vue'),
+      },
+      {
+        path: '/wallet/xmr',
+        name: 'xmrwallet',
+        component: () => import('src/pages/wallets/xmr/XmrTransactions.vue'),
+      },
+            {
+        path: '/wallet/xmr/send',
+        name: 'xmrwalletsend',
+        component: () => import('src/pages/wallets/xmr/XmrSend.vue'),
+      },
+            {
+        path: '/wallet/xmr/recieve',
+        name: 'xmrwalletrecieve',
+        component: () => import('src/pages/wallets/xmr/XmrRecieve.vue'),
+      },
 
+     
+    ],
+  },
 
 
 
@@ -81,7 +149,7 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-  // Plain  Logged in Required
+  // Account  Logged in Required
   {
     path: '/account',
     component: () => import('layouts/MainLayout.vue'),

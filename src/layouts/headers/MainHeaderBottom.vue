@@ -81,15 +81,15 @@
         </div>
 
         <div class="col-grow gt-sm"></div>
-        <div class="col-auto q-px-lg q-pt-sm text-no-wrap gt-sm">
+        <div class="col-auto q-px-lg q-pt-sm text-no-wrap gt-sm" v-on:click="gotobtcwallet()">
             <q-img src="../../assets/coin/btc/btc_small_21.png" style="max-width: 25px" :ratio="1" />
             {{ btcprice }}
         </div>
-        <div class="col-auto q-px-lg q-pt-sm text-no-wrap gt-sm">
+        <div class="col-auto q-px-lg q-pt-sm text-no-wrap gt-sm" v-on:click="gotoxmrwallet()">
             <q-img src="../../assets/coin/xmr/xmr_small.png" style="max-width: 25px" :ratio="1" />
             {{ xmrprice }}
         </div>
-        <div class="col-auto q-px-lg q-pt-sm q-mr-xl text-no-wrap gt-sm">
+        <div class="col-auto q-px-lg q-pt-sm q-mr-xl text-no-wrap gt-sm" v-on:click="gotobchwallet()">
             <q-img src="../../assets/coin/bch/bch_small1.png" style="max-width: 25px" :ratio="1" />
             {{ bchprice }}
         </div>
@@ -133,6 +133,17 @@ export default defineComponent({
     },
 
     methods: {
+        gotoxmrwallet(){
+            this.$router.push({name:'xmrwallet'});  
+            },
+        gotobtcwallet(){
+            this.$router.push({name:'btcwallet'});  
+            },
+
+        gotobchwallet(){
+            this.$router.push({name:'bchwallet'});  
+            },
+
         //  Get prices of current coins
         async getxmrprice () {
             await axios({

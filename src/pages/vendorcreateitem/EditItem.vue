@@ -153,6 +153,7 @@
                         outlined
                         v-model="CreateItemForm.basicInfo.title"
                         label="Item Title"
+                        
                         autocomplete="off"
                         :dense="CreateItemForm.dense"
                         :rules="[
@@ -506,12 +507,10 @@ export default defineComponent({
     },
     mounted () {
         this.userstatus();
-        this.createitemtemporary();
-
+        this.getItemForSale();
         this.getCategoryList(); // Query Categories 
         this.getConditionList();// Query Conditionlist 
         this.getCountryList();// Query Countries 
-      
     },
 
     data () {
@@ -590,7 +589,6 @@ export default defineComponent({
                 })
         },
         async getItemForSale () {// Get the item thats being modified
-
             const path = '/item/' + this.item_id;
             await axios({
                 method: 'get',
@@ -601,32 +599,16 @@ export default defineComponent({
                 .then((response) => {
                     if (response.status === 200) {
                         this.marketitem = response.data;
-                        console.log(this.marketitem)
-                   
+                    }
+                    else{
+                        console.log("error")
                     }
                 })
                 .catch((error) => {
 
                 });
         },
-        async createitemtemporary () { // Create an Item.  // Using thi
-            await axios({
-                method: 'GET',
-                url: '/vendorcreateitem/create-item',
-                withCredentials: true,
-                headers: authHeader()
-            })
-                .then((response) => {
-                    if (response.status = 200) {
-                        this.item_id = response.data.item_id
-                        this.getItemForSale()
-                    }
-                    else {
-                        this.$router.push("/")
-                    }
-                })
-        },
-
+       
         async CreateItem (
 
             payLoad: {
