@@ -49,8 +49,9 @@ export default defineComponent({
     logout () {
       localStorage.clear();
       this.$store.dispatch('user', null);
-      this.$q.cookies.remove('user_token')
-      this.$q.cookies.remove('auth_token')
+      this.$q.cookies.remove('user_token');
+      this.$q.cookies.remove('auth_token');
+            this.$q.cookies.remove('clearnet_session');
       this.$q.notify({
         type: 'negative',
         message: 'You are now logged out.',

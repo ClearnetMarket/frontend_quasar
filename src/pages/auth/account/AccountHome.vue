@@ -182,23 +182,6 @@ export default defineComponent({
 
 
 <style type="ts" scoped>
-.bordered {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #eeeeee;
-}
-.bordered {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #a7a0a0;
-}
-.rcorners1 {
-    border-radius: 15px;
-}
-.greyhover:hover {
-    background-color: #eeeeee;
-}
-.wordcolor {
-    color: #6b6565;
-}
+
+
 </style>

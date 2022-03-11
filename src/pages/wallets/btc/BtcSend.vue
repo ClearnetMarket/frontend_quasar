@@ -22,57 +22,56 @@
         </div>
 
         <q-form method="post" @submit="onSubmit">
-         
-                <div class="col-12 col-sm-12">
-                    btc Address
-                    <q-input
-                        outlined
-                        v-model="wallet.btc_address"
-                        label="Destination btc Address"
-                        autocomplete="off"
-                        :dense="dense"
-                        :rules="[
-                            $rules.required('Title is Required'),
-                            $rules.minLength(25, 'Your address should have at least 25 letters'),
-                            $rules.maxLength(100, 'Your address should not be larger than 100 letters')
-                        ]"
-                        lazy-rules
-                    />
-                </div>
-                <div class="col-12 col-sm-12">
-                    Description
-                    <q-input
-                        outlined
-                        v-model="wallet.btc_address"
-                        label="Transaction Description"
-                        autocomplete="off"
-                        :dense="dense"
-                        :rules="[
-                            $rules.minLength(10, 'Your Address is incorrect'),
-                            $rules.maxLength(250, 'Your Address is incorrect')
-                        ]"
-                        lazy-rules
-                    />
-                </div>
-                <div class="col-3 col-sm-3" style="max-width:200px">
-                    Amount
-                    <q-input
-                        outlined
-                        v-model="wallet.btc_amount"
-                        label="Amount in btc"
-                        autocomplete="off"
-                        mask="#.########"
-                        fill-mask="0"
-                        :dense="dense"
-                        :rules="[
-                            $rules.required('Amount is Required'),
-                            $rules.numeric('Numbers only'),
-                        
-                        ]"
-                        lazy-rules
-                    />
-                </div>
-                <div class="col-3 col-sm-3" style="max-width:200px">
+            <div class="col-12 col-sm-12">
+                btc Address
+                <q-input
+                    outlined
+                    v-model="wallet.btc_address"
+                    label="Destination btc Address"
+                    autocomplete="off"
+                    :dense="dense"
+                    :rules="[
+                        $rules.required('Title is Required'),
+                        $rules.minLength(25, 'Your address should have at least 25 letters'),
+                        $rules.maxLength(100, 'Your address should not be larger than 100 letters')
+                    ]"
+                    lazy-rules
+                />
+            </div>
+            <div class="col-12 col-sm-12">
+                Description
+                <q-input
+                    outlined
+                    v-model="wallet.btc_address"
+                    label="Transaction Description"
+                    autocomplete="off"
+                    :dense="dense"
+                    :rules="[
+                        $rules.minLength(10, 'Your Address is incorrect'),
+                        $rules.maxLength(250, 'Your Address is incorrect')
+                    ]"
+                    lazy-rules
+                />
+            </div>
+            <div class="col-3 col-sm-3" style="max-width:200px">
+                Amount
+                <q-input
+                    outlined
+                    v-model="wallet.btc_amount"
+                    label="Amount in btc"
+                    autocomplete="off"
+                    mask="#.########"
+                    fill-mask="0"
+                    :dense="dense"
+                    :rules="[
+                        $rules.required('Amount is Required'),
+                        $rules.numeric('Numbers only'),
+                    
+                    ]"
+                    lazy-rules
+                />
+            </div>
+            <div class="col-3 col-sm-3" style="max-width:200px">
                 Wallet Pin
                 <q-input
                     outlined
@@ -87,8 +86,7 @@
                     lazy-rules
                 />
             </div>
-          
-            
+
             <div class="q-pa-md doc-container">
                 <div class="row justify-end">
                     <q-btn type="submit" class color="accent" label="Send Coin" />
@@ -142,9 +140,10 @@ export default defineComponent({
                 .then((response) => {
                     if (response.status = 200) {
                     }
-                    else {
-                        this.$router.push("/login")
-                    }
+
+                })
+                .catch((error) => {
+                    this.$router.push("/login")
                 })
         },
         async SendCoin (payLoad: {

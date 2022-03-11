@@ -19,7 +19,6 @@
             </div>
             <div class="col-12 col-sm-3"></div>
         </div>
-
     </q-page>
 </template>
 
@@ -44,7 +43,7 @@ export default defineComponent({
     data () {
         return {
             dense: ref(true),
-           
+
         };
     },
     computed: {
@@ -62,12 +61,13 @@ export default defineComponent({
                 .then((response) => {
                     if (response.status = 200) {
                     }
-                    else {
-                        this.$router.push("/login")
-                    }
+
+                })
+                .catch((error) => {
+                    this.$router.push("/login")
                 })
         },
-       
+
     },
 });
 </script>

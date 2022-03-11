@@ -14,10 +14,10 @@
               autocomplete="off"
               :dense="registerForm.dense"
             />
-              <q-input
+            <q-input
               outlined
               v-model="registerForm.display_username"
-              label="Display username (Can be changed.  This is what appears to other users.)"
+              label="Display username (This is what appears to other users)"
               autocomplete="off"
               :dense="registerForm.dense"
             />
@@ -75,7 +75,7 @@
             <q-space />
             <div class="q-pa-md doc-container">
               <div class="row justify-end">
-                <q-btn type="submit" class="full-width" color="secondary" label="Register" />
+                <q-btn type="submit" class="full-width" color="accent" label="Register" />
               </div>
             </div>
             <div class="row">
@@ -119,7 +119,7 @@ export default defineComponent({
         username: '',
         display_username: '',
         email: '',
-        pin:'',
+        pin: '',
         password: '',
         password_confirm: '',
         currency: '',
@@ -139,7 +139,7 @@ export default defineComponent({
       username: string;
       password: string;
       email: string;
-      pin:string;
+      pin: string;
       country: string;
       currency: string;
     }) {
@@ -161,6 +161,11 @@ export default defineComponent({
             this.$store.dispatch('user', response.data.user);
 
             this.$router.push('/');
+            this.$q.notify({
+              type: 'positive',
+              message: 'Succuss: Welcome to Clearnet market',
+              position: 'top'
+            })
           }
         })
         .catch((error) => {

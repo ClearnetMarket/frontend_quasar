@@ -37,10 +37,11 @@ export default defineComponent({
 
   methods: {  
     logout () {
-      this.$q.cookies.remove('user_token')
-      this.$q.cookies.remove('auth_token')
+      this.$q.cookies.remove('user_token');
+      this.$q.cookies.remove('auth_token');
+      this.$q.cookies.remove('clearnet_session');
       this.$store.dispatch('user', null);
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'home' });
 
     }
   }

@@ -129,10 +129,11 @@ export default defineComponent({
                 .then((response) => {
                     if (response.status = 200) {
                     }
-                    else {
-                        this.$router.push("/login")
-                    }
+                   
                 })
+                                .catch((error)=>{
+                this.$router.push("/login")
+            })
         },
         async SendCoin (payLoad: {
             xmr_address: string,
